@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{6BAD6AF0-F9A9-4E33-9109-86141A224E06}</ProjectGuid>
+    <ProjectGuid>{80F69620-F620-4778-896E-77EE0EFE699F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>QEPU_Simulator</RootNamespace>
   </PropertyGroup>
@@ -50,7 +50,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;_CRT_SECURE_NO_DEPRECATE ;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -79,15 +79,35 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="complex.h" />
+    <ClInclude Include="eeprom.h" />
+    <ClInclude Include="gates.h" />
+    <ClInclude Include="qepu.h" />
+    <ClInclude Include="qepu_constants.h" />
+    <ClInclude Include="qmem.h" />
+    <ClInclude Include="sram.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="uart.h" />
+    <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="complex.cpp" />
+    <ClCompile Include="eeprom.cpp" />
+    <ClCompile Include="flag.cpp" />
+    <ClCompile Include="gates.cpp" />
+    <ClCompile Include="interrupts.cpp" />
+    <ClCompile Include="jumpstack.cpp" />
+    <ClCompile Include="qepu.cpp" />
     <ClCompile Include="QEPU_Simulator.cpp" />
+    <ClCompile Include="qmem.cpp" />
+    <ClCompile Include="sram.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="uart.cpp" />
+    <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

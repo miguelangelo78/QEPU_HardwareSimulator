@@ -1,11 +1,8 @@
-// QEPU_Simulator.cpp : Defines the entry point for the console application.
-//
-
 #include "stdafx.h"
+#include "qepu.h"
 
-
-int _tmain(int argc, _TCHAR* argv[])
-{
+int _tmain(int argc, _TCHAR* argv[]){
+	QEPU q;
+	q.run();
 	return 0;
 }
-

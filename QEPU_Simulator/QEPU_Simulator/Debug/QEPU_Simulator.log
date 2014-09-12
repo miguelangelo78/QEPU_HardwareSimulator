@@ -1,16 +1,25 @@
-﻿Build started 12/09/2014 16:23:38.
-     1>Project "c:\Users\Miguel\documents\visual studio 2013\Projects\QEPU_Simulator\QEPU_Simulator\QEPU_Simulator.vcxproj" on node 2 (Build target(s)).
+﻿Build started 12/09/2014 20:18:34.
+     1>Project "C:\Users\Miguel\Documents\GitHub\QEPU_HardwareSimulator\QEPU_Simulator\QEPU_Simulator\QEPU_Simulator.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Debug\QEPU_Simulator.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp
-         stdafx.cpp
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\QEPU_Simulator.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt QEPU_Simulator.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _CRT_SECURE_NO_DEPRECATE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\QEPU_Simulator.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt QEPU_Simulator.cpp
          QEPU_Simulator.cpp
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"c:\users\miguel\documents\visual studio 2013\Projects\QEPU_Simulator\Debug\QEPU_Simulator.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"c:\users\miguel\documents\visual studio 2013\Projects\QEPU_Simulator\Debug\QEPU_Simulator.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"c:\users\miguel\documents\visual studio 2013\Projects\QEPU_Simulator\Debug\QEPU_Simulator.lib" /MACHINE:X86 Debug\QEPU_Simulator.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Miguel\Documents\GitHub\QEPU_HardwareSimulator\QEPU_Simulator\Debug\QEPU_Simulator.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Miguel\Documents\GitHub\QEPU_HardwareSimulator\QEPU_Simulator\Debug\QEPU_Simulator.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Miguel\Documents\GitHub\QEPU_HardwareSimulator\QEPU_Simulator\Debug\QEPU_Simulator.lib" /MACHINE:X86 Debug\complex.obj
+         Debug\eeprom.obj
+         Debug\flag.obj
+         Debug\gates.obj
+         Debug\interrupts.obj
+         Debug\jumpstack.obj
+         Debug\qepu.obj
+         Debug\QEPU_Simulator.obj
+         Debug\qmem.obj
+         Debug\sram.obj
          Debug\stdafx.obj
-         QEPU_Simulator.vcxproj -> c:\users\miguel\documents\visual studio 2013\Projects\QEPU_Simulator\Debug\QEPU_Simulator.exe
-     1>Done Building Project "c:\Users\Miguel\documents\visual studio 2013\Projects\QEPU_Simulator\QEPU_Simulator\QEPU_Simulator.vcxproj" (Build target(s)).
+         Debug\uart.obj
+         Debug\utils.obj
+         QEPU_Simulator.vcxproj -> C:\Users\Miguel\Documents\GitHub\QEPU_HardwareSimulator\QEPU_Simulator\Debug\QEPU_Simulator.exe
+     1>Done Building Project "C:\Users\Miguel\Documents\GitHub\QEPU_HardwareSimulator\QEPU_Simulator\QEPU_Simulator\QEPU_Simulator.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:05.18
+Time Elapsed 00:00:06.67
