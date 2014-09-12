@@ -1,15 +1,32 @@
 #include "stdafx.h"
 #include "eeprom.h"
-EEProm::EEProm(){
-
+EEProm::EEProm(char*eeprom_filepath) :eeprom_filepath(eeprom_filepath), eeprom_binaryfile_write(eeprom_filepath, std::ofstream::out | std::ofstream::in | std::ofstream::binary),
+									  eeprom_binfile_read(eeprom_filepath,std::ofstream::in | std::ofstream::binary)
+{
+	if (!eeprom_binaryfile_write.is_open()){
+		std::cout << "The file '" << eeprom_filepath << "' does not exist!";
+		std::cin.get();
+		exit(EXIT_FAILURE);
+	}
 }
 
-uint8_t EEProm::write(uint16_t address, uint8_t data){
-	return 0;
+EEProm::~EEProm(){
+	eeprom_binaryfile_write.close();
+	eeprom_binfile_read.close();
+}
+
+void EEProm::write(uint16_t address, uint8_t data){
+	eeprom_binaryfile_write.clear();
+	eeprom_binaryfile_write.seekp(address);
+	eeprom_binaryfile_write << data;
 }
 
 uint8_t EEProm::read(uint16_t address){
-	return 0;
+	char c;
+	eeprom_binfile_read.clear();
+	eeprom_binfile_read.seekg(address, eeprom_binfile_read.beg);
+	eeprom_binfile_read.get(c);
+	return c;
 }
 
 char* EEProm::readall(){
@@ -25,7 +42,7 @@ int EEProm::count_lines(){
 		if (tdb_i >= INSTR_WIDTH){
 			ctr++;
 			for (int j = 0; j<INSTR_WIDTH; j++){
-				if (tdb[j] == 0xFF) all_data_read = true;
+				if (tdb[j] == 204) all_data_read = true;
 				else all_data_read = false;
 			}
 			tdb_i = 0;

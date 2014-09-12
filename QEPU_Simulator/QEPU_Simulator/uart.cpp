@@ -14,9 +14,9 @@ void Serial::writestr(char * data){
 }
 void Serial::writeln(char data){
 	write(data);
-	write(13); //NEW LINE
+	write('\n'); //NEW LINE
 }
 void Serial::writestrln(char * data){
 	writestr(data);
-	write(13); //NEW LINE
+	write('\n'); //NEW LINE
 }

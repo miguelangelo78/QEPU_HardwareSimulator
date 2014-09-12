@@ -3,6 +3,11 @@
 #include <stdint.h>
 #include <iostream>
 #include <Windows.h>
+#include <time.h>
+#include <fstream>
+#include <stdlib.h>
+#include <vector>
+#include <inttypes.h>
 
 //QUBIT MEMORY AND INSTRUCTIONS CONSTANTS:
 #define REGISTER_SIZE BUS_WIDTH
@@ -54,6 +59,7 @@
 #define ADDRESS_MAX 256
 #define HEAD_PROGRAMMER_OFFSET 20
 #define TAIL_PROGRAMMER_OFFSET 0
+#define RAM_62256_ADDRESS_MAXSIZE pow(2,15)
 // MEMORY DIAGRAM:
 // [MHPO|HPO|FREE|TPO|MTPF]
 //FLAG CONSTANTS:

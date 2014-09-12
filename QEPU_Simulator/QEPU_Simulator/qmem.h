@@ -4,30 +4,22 @@
 #include "gates.h"
 #include "uart.h"
 #include "utils.h"
-#include <inttypes.h>
 class QMEM{
 	public:
 		QMEM();
-		void write(int index, int dim, int deg);
-		int read(int index, int dim, bool freeze_bus);
+		void write(int index, unsigned __int8 dim, unsigned __int8 deg);
+		unsigned __int8 read(int index, unsigned __int8 dim);
 		void dumpmem(int length);
 		int fetch_register(int address);
-		void set_register(int address, int data);
+		void set_register(int address, unsigned __int8 data);
 	private:
 		void interrupt_cpu(int interrupt_type);
 		void interrupt_done();
 		void setup_seed();
 		int measure(int amplitude);
-		void bus_write(int8_t data);
-		void setctrl(int bin);
-		void setdatapin(int pin, int state);
-		void setctrlpin(int pin, int state);
-		void setbuffctrlpin(int pin, int state);
-		void select_qubit(int index);
-		void deselect_qubit();
-		void close_bus();
 		Gates gates;
 		Serial serial;
 		Utils utils;
+		std::vector<std::vector<int8_t>> mem;
 };
 #endif

@@ -9,7 +9,7 @@
 #include "utils.h"
 class QEPU{
 	public:
-		QEPU();
+		QEPU(char*eeprom_filepath);
 		class Flag{
 			public:
 				Flag();

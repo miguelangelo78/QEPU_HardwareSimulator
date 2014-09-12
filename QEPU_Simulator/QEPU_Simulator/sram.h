@@ -8,10 +8,10 @@
 class SRAM{
 	public:
 		SRAM();
-		int8_t read(int address);
-		void write(int address, int data);
-		int pop();
-		void push(int register_data);
+		unsigned __int8 read(int address);
+		void write(int address,unsigned __int8 data);
+		unsigned __int8 pop();
+		void push(unsigned __int8 register_data);
 		void permissions(bool allowed);
 		void dumpmem(int length);
 		int stack_head_offset;
@@ -19,12 +19,10 @@ class SRAM{
 		Utils utils;
 		Serial serial;
 		void init();
-		void set_address(int address);
 		void memory_management();
 		int* read_sram();
-		void bus_write(int data);
-		void setctrlpin(int pin, int state);
 		int stack_tail_offset;
 		bool memory_restrictedaccess_allowed;
+		std::vector<unsigned __int8> sram_memory;
 };
 #endif
