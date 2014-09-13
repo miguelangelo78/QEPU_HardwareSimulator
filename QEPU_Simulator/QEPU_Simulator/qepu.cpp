@@ -8,7 +8,7 @@ void QEPU::setup_seed(){
 }
 
 void QEPU::set_programcounter(int newaddress){
-	program_counter = newaddress - 1;
+	program_counter = newaddress-1;
 }
 
 void QEPU::run(){
@@ -95,7 +95,8 @@ void QEPU::execute(int func, int32_t op1, int32_t op2, int32_t op3){
 		break;
 	case 0x10: /*BLW (branch if lower (with jumpstack))*/
 		if (flags.flaglist[CND_LWER]){
-			jumpstack.push(program_counter + 1);
+			if (flags.flaglist[ALLOW_BRANCH_STACK])
+				jumpstack.push(program_counter + 1);
 			set_programcounter(op1);
 		}
 		break;

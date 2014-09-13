@@ -4,10 +4,12 @@
 Serial::Serial(){}
 
 char Serial::read(){
-	return getchar();
+	fflush(stdin);
+	return _getch();
 }
 void Serial::write(char data){
-	std::cout << data;
+	fflush(stdin);
+	printf("%c",data);
 }
 void Serial::writestr(char * data){
 	for (int i = 0; true; i++) if (data[i] == '\0') break; else write(data[i]);

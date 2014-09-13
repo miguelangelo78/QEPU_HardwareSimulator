@@ -1,6 +1,7 @@
 #ifndef QEPU_CONSTANTS_H_
 #define QEPU_CONSTANTS_H_
 #include <stdint.h>
+#include <conio.h>
 #include <iostream>
 #include <Windows.h>
 #include <time.h>
