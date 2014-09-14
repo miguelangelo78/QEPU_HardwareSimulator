@@ -1,44 +1,24 @@
-﻿Build started 14/09/2014 20:41:33.
+﻿Build started 14/09/2014 22:28:51.
      1>Project "C:\Users\Miguel\Documents\GitHub\QEPU_HardwareSimulator\QEPU_Simulator\QEPU_Simulator\QEPU_Simulator.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _CRT_SECURE_NO_DEPRECATE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt QEPU_Simulator.cpp eeprom.cpp flag.cpp gates.cpp interrupts.cpp jumpstack.cpp qepu.cpp qmem.cpp sram.cpp uart.cpp utils.cpp
-         QEPU_Simulator.cpp
-         Generating Code...
-         Compiling...
-         utils.cpp
-     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\utils.cpp(37): warning C4172: returning address of local variable or temporary
-         uart.cpp
-         sram.cpp
-     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\sram.cpp(4): warning C4244: 'argument' : conversion from 'double' to 'unsigned int', possible loss of data
-     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\sram.cpp(46): warning C4172: returning address of local variable or temporary
-         qmem.cpp
-     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\qmem.cpp(18): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-         qepu.cpp
-     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\qepu.cpp(7): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-         jumpstack.cpp
-         interrupts.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _CRT_SECURE_NO_DEPRECATE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt gates.cpp
          gates.cpp
      1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(21): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
      1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(27): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
      1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(44): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(62): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(75): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(77): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(78): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(86): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(91): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
-     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(93): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
-     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(153): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(154): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(166): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(227): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(234): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(241): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(272): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-         flag.cpp
-         eeprom.cpp
-     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\eeprom.cpp(60): warning C4172: returning address of local variable or temporary
-         Generating Code...
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(85): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(87): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(88): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(96): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(101): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(103): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(163): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(164): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(176): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(237): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(244): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(251): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(282): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Miguel\Documents\GitHub\QEPU_HardwareSimulator\QEPU_Simulator\Debug\QEPU_Simulator.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Miguel\Documents\GitHub\QEPU_HardwareSimulator\QEPU_Simulator\Debug\QEPU_Simulator.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Miguel\Documents\GitHub\QEPU_HardwareSimulator\QEPU_Simulator\Debug\QEPU_Simulator.lib" /MACHINE:X86 Debug\complex.obj
          Debug\eeprom.obj
@@ -58,4 +38,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:26.75
+Time Elapsed 00:00:03.07

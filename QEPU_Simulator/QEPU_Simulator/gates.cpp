@@ -52,16 +52,26 @@ Complex * Gates::kronecker(Complex * vec, int qb_count, int touch_enable){
 		kronvec[i] = vec[vec1i].mul(vec[vec2i++]); // <- may or may not use this
 	}
 	print_states(kron_size, kronvec, "2: After kronecker:");
-
 	if (touch_enable){
 		//TOUCH THE ENTANGLED/SUPERPOSITIONED QUBIT BEFORE GIVING IT TO A MATRIX:
-		int binary_touch = 1;
-		while (binary_touch)	for (int i = 0; i<kron_size; i++)
-		if (touch(kronvec[i].re) == binary_touch){
-			for (int j = 0; j<kron_size; j++){ kronvec[j].re = 0; kronvec[j].im = 0; }
-			kronvec[i].re = binary_touch;
-			binary_touch = 0;
-			break;
+		int binary_touch = 0;
+		int binary_touch_location = 0;
+		while (true){
+			for (int i = 0; i < kron_size; i++){
+				if (touch(kronvec[i].re) == 1){
+					binary_touch++;
+					binary_touch_location = i;
+				}
+			}
+			if (binary_touch==1){
+				for (int j = 0; j < kron_size; j++){ kronvec[j].re = 0; kronvec[j].im = 0; }
+				kronvec[binary_touch_location].re = 1;
+				break;
+			}
+			else{
+				binary_touch = 0;
+				binary_touch_location = 0;
+			}
 		}
 	}
 	return kronvec;
