@@ -6,20 +6,12 @@
 #include <stdlib.h>
 Gates::Gates(){}
 
-/*TO DELETE LATER (BEGIN) */
-Serial s;
 void print_states(int qb_count, Complex * vec, char* message){
-	if (DEBUG_MODE){
-		Utils utils;
-		s.writestrln(message);
-		for (int i = 0; i<qb_count; i++){
-			s.writestr("R: "); s.writestr(utils.int2str(vec[i].re * 1000));
-			s.writestr(" . I: "); s.writestr(utils.int2str(vec[i].im * 1000));
-			s.writestrln("");
-		}
+	if (SHOW_QUANTUMCALC){
+		std::cout << message<<std::endl;
+		for (int i = 0; i<qb_count; i++) std::cout <<"  "<<vec[i].re << "  +  " << vec[i].im <<"i"<< std::endl;
 	}
 }
-/*TO DELETE LATER (END) */
 
 int Gates::touch(double probability){
 	return RAND_MAX*probability >= rand();
@@ -27,22 +19,23 @@ int Gates::touch(double probability){
 
 Complex * Gates::reverse_kronecker(Complex * kron, int kron_size){
 	int reversed_kron_size = (log(kron_size) / log(2)) * 2;
-	Complex * reversed_kronecker = (Complex*) malloc(sizeof(Complex) *reversed_kron_size);
+	Complex * reversed_kronecker = (Complex*) malloc(sizeof(Complex) *reversed_kron_size+2);
+	for (int i = 0; i < reversed_kron_size;i++) reversed_kronecker[i] = Complex(0, 0);
+
 	for (int i = 0; i<kron_size; i++)
-	if (kron[i].re == 1){
-		char *toBin = utils.int2binstr(i, log(kron_size) / log(2));
-		int index_rev_kro = 0; //USE ITS OWN INDEX BECAUSE J IS THE INDEX OF TOBIN AN TOBIN HAS TO GO REVERSED
-		for (int j = 0; j<reversed_kron_size; j++){
-			if (toBin[j] == '1'){
-				reversed_kronecker[index_rev_kro] = Complex(0, 0); reversed_kronecker[index_rev_kro + 1] = Complex(1, 0);
+		if (kron[i].re == 1){
+			int toBinSize = log(kron_size) / log(2);
+			char *toBin = new char[toBinSize];
+			toBin = utils.int2binstr(i, toBinSize);
+			_strrev(toBin);
+			int index_rev_kro = 0; //USE ITS OWN INDEX BECAUSE J IS THE INDEX OF TOBIN AN TOBIN HAS TO GO REVERSED
+			for (int j = 0; j<reversed_kron_size; j++){
+				if (toBin[j] == '1') reversed_kronecker[index_rev_kro + 1] = Complex(1, 0);
+				else reversed_kronecker[index_rev_kro] = Complex(1, 0); 
+				index_rev_kro += 2;
 			}
-			else{
-				reversed_kronecker[index_rev_kro] = Complex(1, 0); reversed_kronecker[index_rev_kro + 1] = Complex(0, 0);
-			}
-			index_rev_kro += 2;
+			break;
 		}
-		break;
-	}
 	return reversed_kronecker;
 }
 
@@ -55,8 +48,11 @@ Complex * Gates::kronecker(Complex * vec, int qb_count, int touch_enable){
 	int vec2i = vec2i_default;
 	for (int i = 0; i<kron_size; i++){
 		if (vec2i == qb_count * 2){ vec2i = vec2i_default; vec1i++; }
-		kronvec[i] = vec[vec1i].mul(vec[vec2i++]);
+		//kronvec[i].re = vec[vec1i].re*vec[vec2i].re; //kronvec[i].im = vec[vec1i].im*vec[vec2i++].im;
+		kronvec[i] = vec[vec1i].mul(vec[vec2i++]); // <- may or may not use this
 	}
+	print_states(kron_size, kronvec, "2: After kronecker:");
+
 	if (touch_enable){
 		//TOUCH THE ENTANGLED/SUPERPOSITIONED QUBIT BEFORE GIVING IT TO A MATRIX:
 		int binary_touch = 1;
@@ -68,36 +64,36 @@ Complex * Gates::kronecker(Complex * vec, int qb_count, int touch_enable){
 			break;
 		}
 	}
-	free(vec);
 	return kronvec;
 }
 
 Complex * Gates::ampl2vec(int qb_count, int theta_list[6], int phi_list[6]){
 	Complex* vec = (Complex*) malloc(sizeof(Complex) *(qb_count * 2));
-	if (vec == NULL){
-		Serial s;
-		Utils u;
-		s.writestr("ERROR");
-		while (1);
-	}
+	if (vec == NULL){ std::cout << "ERROR"; while (1); }
 	int thephi_index = 0;
 	for (int i = 0; i<qb_count * 2; i += 2){
 		vec[i].re = cos(theta_list[thephi_index] * M_PI / 360);	// ALPHA RE (IM=0)
+		vec[i].im = 0.0f;
 		vec[i + 1].re = sin((theta_list[thephi_index] * M_PI) / 360)*cos((phi_list[thephi_index] * M_PI) / 180);	// BETA RE
 		vec[i + 1].im = sin((theta_list[thephi_index] * M_PI) / 360)*sin((phi_list[thephi_index] * M_PI) / 180); // BETA IM
 		thephi_index++;
 	}
-	print_states(qb_count * 2, vec, "Before: ");
+	print_states(qb_count * 2, vec, "1: Before kronecker:");
 	return kronecker(vec, qb_count, true); // PUT VEC INTO KRONECKER AND RETURN THE RESULT
 }
 
 int * Gates::vec2ampl(Complex * vec, int qb_count){
 	int kron_size = utils.custom_pow(2, qb_count);
+	print_states(kron_size, vec, "3: After multiplying:");
 	if (qb_count>1) vec = reverse_kronecker(vec, kron_size);
-	int* newthephi = (int*) malloc(sizeof(int) *(qb_count * 2));
-	for (int i = 0; i<qb_count * 2; i++) if (i % 2 == 0) newthephi[i] = (360 * acos(vec[i].re)) / M_PI; else newthephi[i] = (180 * vec[i].arg()) / M_PI;
-	print_states(kron_size, vec, "After: ");
-	free(vec);
+	int* newthephi = new int[qb_count * 2];
+	for (int i = 0; i < qb_count * 2; i++){
+		if (i % 2 == 0) newthephi[i] = (360 * acos(vec[i].re)) / M_PI;
+		else{
+			newthephi[i] = (180 * vec[i].arg()) / M_PI;
+		}
+	}
+	print_states(kron_size, vec, "4: After reverting kronecker: ");
 	return newthephi;
 }
 
@@ -110,7 +106,6 @@ Complex * Gates::multiply2x2(Complex *q, Complex matrix[2][2]){
 		result[i].re = tmp.re;
 		result[i].im = tmp.im;
 	}
-	free(q);
 	return result;
 }
 Complex * Gates::multiply4x4(Complex *q, Complex matrix[4][4]){

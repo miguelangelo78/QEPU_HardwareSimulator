@@ -38,8 +38,9 @@ void QEPU::interrupt_cpu(int interrupt_type){
 			case INT_UART_IN_BUFF_NO_ECHO:
 				{
 					int char_noecho = serial.read();
-					if (char_noecho == STRING_NEWLINE){
+					if (char_noecho == STRING_CARRETURN){
 						interrupt_done();
+						std::cout << std::endl;
 						sram.write(data_in_registerpointer + address_pointer_offset, STRING_TERMINATOR);
 					}
 					else
@@ -54,8 +55,9 @@ void QEPU::interrupt_cpu(int interrupt_type){
 				{
 				int char_echo = serial.read();
 				serial.write(char_echo);
-				if (char_echo == STRING_NEWLINE){
+				if (char_echo == STRING_CARRETURN){
 					interrupt_done();
+					std::cout << std::endl;
 					sram.write(data_in_registerpointer + address_pointer_offset, STRING_TERMINATOR);
 				}
 				else

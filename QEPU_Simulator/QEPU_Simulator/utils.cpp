@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "utils.h"
 char * Utils::int2binstr(int num, int strlength){
-	char * str = (char*) malloc(strlength + 1);
+	char*str = new char[strlength + 1];
 	if (!str) return NULL;
 	str[strlength] = 0;
 	// type punning because signed shift is implementation-defined

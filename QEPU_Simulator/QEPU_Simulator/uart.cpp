@@ -8,7 +8,7 @@ char Serial::read(){
 	return _getch();
 }
 void Serial::write(char data){
-	fflush(stdin);
+	fflush(stdout);
 	printf("%c",data);
 }
 void Serial::writestr(char * data){

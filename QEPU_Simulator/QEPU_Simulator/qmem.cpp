@@ -9,6 +9,7 @@ QMEM::QMEM(){
 void QMEM::write(int index, unsigned __int8 dim, unsigned __int8 deg){
 	mem[index][dim] = deg;
 }
+
 unsigned __int8 QMEM::read(int index, unsigned __int8 dim){
 	return mem[index][dim];
 }
@@ -25,7 +26,8 @@ int QMEM::fetch_register(int address){
 	return strtol(data_fetched, NULL, 2);
 }
 void QMEM::set_register(int address, unsigned __int8 data){
-	char* data_str = utils.int2binstr(data, BUS_WIDTH);
+	char* data_str = new char[BUS_WIDTH];
+	data_str = utils.int2binstr(data, BUS_WIDTH);
 	_strrev(data_str);
 	int address_offset = address*BUS_WIDTH;
 	for (int i = 0; i<BUS_WIDTH; i++)
