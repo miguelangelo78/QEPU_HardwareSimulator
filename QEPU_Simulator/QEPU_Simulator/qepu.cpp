@@ -16,7 +16,6 @@ void QEPU::run(){
 	serial.writestrln(" RUNNING "); serial.writestrln("");
 	int line_width = INSTR_WIDTH;
 	program_counter_maximum = eeprom.count_lines();
-	
 	for (program_counter = 0; program_counter<program_counter_maximum; program_counter++){
 		//FETCH OPERANDS FROM THE EEPROM:
 		int eeprom_line_selection = program_counter*line_width;
@@ -42,6 +41,14 @@ void QEPU::run(){
 }
 
 void QEPU::execute(int func, int32_t op1, int32_t op2, int32_t op3){
+	if (DEBUG_MODE)
+		std::cout << "Function: " << func 
+				  << " , OP1: " << op1 
+				  << " , OP2: " << op2 
+				  << " , OP3: " << op3 
+				  << " , PC: " << program_counter 
+				  << " , Max PC: "<<program_counter_maximum
+				  << std::endl;
 	//TODO: MAKE A SWITCH ON THE FUNCTION
 	switch (func){
 		//DATA MOVEMENT AND PROGRAM CONTROL/FLUX/IO FUNCTIONS:
@@ -161,100 +168,100 @@ void QEPU::execute(int func, int32_t op1, int32_t op2, int32_t op3){
 		break;
 		/*IMPLEMENT LOGIC AND ARITHMETIC (CLASSICAL) CALCULATIONS HERE*/
 	case 0x1B: /*ADD*/
-		sram.write(op1, sram.read(op2) + sram.read(op3));
+		qmem.set_register(op1, qmem.fetch_register(op2) + qmem.fetch_register(op3));
 		break;
 	case 0x1C: /*ADD RK (add reg const)*/
-		sram.write(op1, sram.read(op2) + op3);
+		qmem.set_register(op1, qmem.fetch_register(op2) + op3);
 		break;
 	case 0x1D: /*SUB*/
-		sram.write(op1, sram.read(op2) - sram.read(op3));
+		qmem.set_register(op1, qmem.fetch_register(op2) - qmem.fetch_register(op3));
 		break;
 	case 0x1E: /*SUB RK (sub reg const)*/
-		sram.write(op1, sram.read(op2) - op3);
+		qmem.set_register(op1, qmem.fetch_register(op2) - op3);
 		break;
 	case 0x1F: /*SUB KR (sub const reg)*/
-		sram.write(op1, op2 - sram.read(op3));
+		qmem.set_register(op1, op2 - qmem.fetch_register(op3));
 		break;
 	case 0x20: /*MUL*/
-		sram.write(op1, sram.read(op2)*sram.read(op3));
+		qmem.set_register(op1, qmem.fetch_register(op2)*qmem.fetch_register(op3));
 		break;
 	case 0x21: /*MUL RK (mul reg const)*/
-		sram.write(op1, sram.read(op2)*op3);
+		qmem.set_register(op1, qmem.fetch_register(op2)*op3);
 		break;
 	case 0x22: /*DIV*/
-		sram.write(op1, sram.read(op2) / sram.read(op3));
+		qmem.set_register(op1, qmem.fetch_register(op2) / qmem.fetch_register(op3));
 		break;
 	case 0x23: /*DIV RK (div reg const)*/
-		sram.write(op1, sram.read(op2) / op3);
+		sram.write(op1, qmem.fetch_register(op2) / op3);
 		break;
 	case 0x24: /*DIV KR (div const reg)*/
-		sram.write(op1, op2 / sram.read(op3));
+		qmem.set_register(op1, op2 / qmem.fetch_register(op3));
 		break;
 	case 0x25: /*AND*/
-		sram.write(op1, sram.read(op2)&sram.read(op3));
+		qmem.set_register(op1, qmem.fetch_register(op2)&qmem.fetch_register(op3));
 		break;
 	case 0x26: /*AND RK (and reg const)*/
-		sram.write(op1, sram.read(op2)&op3);
+		sram.write(op1, qmem.fetch_register(op2)&op3);
 		break;
 	case 0x27: /*AND KR (and const reg)*/
-		sram.write(op1, op2&sram.read(op3));
+		qmem.set_register(op1, op2&qmem.fetch_register(op3));
 		break;
 	case 0x28: /*OR*/
-		sram.write(op1, sram.read(op2) | sram.read(op3));
+		qmem.set_register(op1, qmem.fetch_register(op2) | qmem.fetch_register(op3));
 		break;
 	case 0x29: /*OR RK (or reg const)*/
-		sram.write(op1, sram.read(op2) | op3);
+		qmem.set_register(op1, qmem.fetch_register(op2) | op3);
 		break;
 	case 0x2A: /*OR KR (or const reg)*/
-		sram.write(op1, op2 | sram.read(op3));
+		qmem.set_register(op1, op2 | qmem.fetch_register(op3));
 		break;
 	case 0x2B: /*NOR*/
-		sram.write(op1, ~(sram.read(op2) | sram.read(op3)));
+		qmem.set_register(op1, ~(qmem.fetch_register(op2) | qmem.fetch_register(op3)));
 		break;
 	case 0x2C: /*NOR RK (nor reg const)*/
-		sram.write(op1, ~(sram.read(op2) | op3));
+		qmem.set_register(op1, ~(qmem.fetch_register(op2) | op3));
 		break;
 	case 0x2D: /*NOR KR (nor const reg)*/
-		sram.write(op1, ~(op2 | sram.read(op3)));
+		qmem.set_register(op1, ~(op2 | qmem.fetch_register(op3)));
 		break;
 	case 0x2E: /*XOR*/
-		sram.write(op1, sram.read(op2) ^ sram.read(op3));
+		qmem.set_register(op1, qmem.fetch_register(op2) ^ qmem.fetch_register(op3));
 		break;
 	case 0x2F: /*XOR RK (xor reg const)*/
-		sram.write(op1, sram.read(op2) ^ op3);
+		qmem.set_register(op1, qmem.fetch_register(op2) ^ op3);
 		break;
 	case 0x30: /*XOR KR (xor const reg)*/
-		sram.write(op1, op2^sram.read(op3));
+		qmem.set_register(op1, op2^qmem.fetch_register(op3));
 		break;
 	case 0x31: /*NAN*/
-		sram.write(op1, ~(sram.read(op2)&sram.read(op3)));
+		qmem.set_register(op1, ~(qmem.fetch_register(op2)&qmem.fetch_register(op3)));
 		break;
 	case 0x32: /*NAN RK (nand reg const)*/
-		sram.write(op1, ~(sram.read(op2)&op3));
+		qmem.set_register(op1, ~(qmem.fetch_register(op2)&op3));
 		break;
 	case 0x33: /*NAN KR (nand const reg)*/
-		sram.write(op1, ~(op2&sram.read(op3)));
+		qmem.set_register(op1, ~(op2&qmem.fetch_register(op3)));
 		break;
 	case 0x34: /*NOT*/
-		sram.write(op1, ~sram.read(op2));
+		qmem.set_register(op1, ~qmem.fetch_register(op2));
 		break;
 	case 0x35: /*SHL*/
-		sram.write(op1, sram.read(op2) << sram.read(op3));
+		qmem.set_register(op1, qmem.fetch_register(op2) << qmem.fetch_register(op3));
 		break;
 	case 0x36: /*SHL RK (shl reg const)*/
-		sram.write(op1, sram.read(op2) << op3);
+		qmem.set_register(op1, qmem.fetch_register(op2) << op3);
 		break;
 	case 0x37: /*SHL KR (shl const reg)*/
-		sram.write(op1, op2 << sram.read(op2));
+		qmem.set_register(op1, op2 << qmem.fetch_register(op2));
 		break;
 	case 0x38: /*SHR*/
-		sram.write(op1, sram.read(op2) >> sram.read(op3));
+		sram.write(op1, qmem.fetch_register(op2) >> qmem.fetch_register(op3));
 		break;
 	case 0x39: /*SHR RK (shr reg const)*/
-		sram.write(op1, sram.read(op2) >> op3);
+		qmem.set_register(op1, qmem.fetch_register(op2) >> op3);
 		break;
 	case 0x3A: /*SHR KR (shr const reg)*/
-		sram.write(op1, op2 >> sram.read(op2));
+		qmem.set_register(op1, op2 >> qmem.fetch_register(op2));
 		break;
 	case 0x3B: /*INT (interrupt)*/ //NEEDS TABLE SYSTEM
 		interrupt_cpu(op1);
@@ -420,6 +427,4 @@ void QEPU::execute(int func, int32_t op1, int32_t op2, int32_t op3){
 	default: /*THIS FUNCTION DOES NOT EXIST*/
 		break;
 	}
-	if (DEBUG_MODE)
-		std::cout << "Function: " << func << " , OP1: " << op1 << " , OP2: " << op2 <<" , OP3: "<<op3<<" , PC: " << program_counter<<std::endl;
 }

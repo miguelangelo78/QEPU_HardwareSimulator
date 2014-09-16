@@ -36,17 +36,12 @@ char* EEProm::readall(){
 int EEProm::count_lines(){
 	int tdb[INSTR_WIDTH + 1];
 	int tdb_i = 0, ctr = 0;
-	bool all_data_read = false;
 	for (int i = 0; true; i++){
 		tdb[tdb_i] = read(i);
-		if (tdb_i >= INSTR_WIDTH){
+		if (tdb_i >= INSTR_WIDTH-1){
+			if (tdb[0] == BINARY_FILE_EOF) return ctr;
 			ctr++;
-			for (int j = 0; j<INSTR_WIDTH; j++){
-				if (tdb[j] == 204) all_data_read = true;
-				else all_data_read = false;
-			}
 			tdb_i = 0;
-			if (all_data_read) return ctr;
 		}
 		else tdb_i++;
 	}
