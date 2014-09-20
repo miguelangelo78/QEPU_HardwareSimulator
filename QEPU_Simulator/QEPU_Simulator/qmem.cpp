@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "qmem.h"
 
-QMEM::QMEM(){
+QMEM::QMEM():entangler(this){
 	std::vector<int8_t> sample{0,0};
 	mem.resize(QUBIT_COUNT,sample);
 }

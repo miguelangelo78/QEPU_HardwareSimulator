@@ -27,9 +27,6 @@ class QEPU{
 				int addresses_toreturn[JUMP_STACK_SIZE];
 		};
 		void run();
-		void write(int index, int dim, int deg);
-		int read(int index, int dim, bool freeze_bus);
-		void dumpmem(int length);
 		Flag flags;
 	private:
 		void interrupt_cpu(int interrupt_type);

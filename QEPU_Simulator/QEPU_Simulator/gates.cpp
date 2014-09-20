@@ -18,6 +18,8 @@ int Gates::touch(double probability){
 }
 
 Complex * Gates::reverse_kronecker(Complex * kron, int kron_size){
+	//1ST: MAKE ENTANGLEMENT
+
 	int reversed_kron_size = (log(kron_size) / log(2)) * 2;
 	Complex * reversed_kronecker = (Complex*) malloc(sizeof(Complex) *reversed_kron_size+2);
 	for (int i = 0; i < reversed_kron_size;i++) reversed_kronecker[i] = Complex(0, 0);

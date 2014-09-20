@@ -96,6 +96,7 @@
   <ItemGroup>
     <ClCompile Include="complex.cpp" />
     <ClCompile Include="eeprom.cpp" />
+    <ClCompile Include="entangler.cpp" />
     <ClCompile Include="flag.cpp" />
     <ClCompile Include="gates.cpp" />
     <ClCompile Include="interrupts.cpp" />

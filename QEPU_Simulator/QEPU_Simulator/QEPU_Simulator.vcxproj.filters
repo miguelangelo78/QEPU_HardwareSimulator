@@ -92,5 +92,8 @@
     <ClCompile Include="eeprom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="entangler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

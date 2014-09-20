@@ -12,14 +12,25 @@ class QMEM{
 		void dumpmem(int length);
 		int fetch_register(int address);
 		void set_register(int address, unsigned __int8 data);
+
+		class Entangler{
+		public:
+			Entangler(QMEM* quantum_memory);
+			bool is_qbit_entangled(); // MAY OR MAY NOT NEED
+			bool is_gateout_entangles();
+			void clear_entanglement();
+			void entangle();
+			void update();
+		private:
+			std::vector<int32_t> entangled;
+			QMEM* quantum_memory;
+		};
 	private:
-		void interrupt_cpu(int interrupt_type);
-		void interrupt_done();
-		void setup_seed();
 		int measure(int amplitude);
 		Gates gates;
 		Serial serial;
 		Utils utils;
+		Entangler entangler;
 		std::vector<std::vector<int8_t>> mem;
 };
 #endif
