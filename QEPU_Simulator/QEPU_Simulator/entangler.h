@@ -5,6 +5,7 @@
 class Entangler{
 	public:
 		Entangler(QMEM* quantum_memory);
+		~Entangler();
 		bool is_qbit_entangled(); // MAY OR MAY NOT NEED
 		bool is_gateout_entangled();
 		void clear_entanglement();
