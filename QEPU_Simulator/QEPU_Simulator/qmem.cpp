@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "qmem.h"
 
-QMEM::QMEM():entangler(this){
+QMEM::QMEM(){
 	std::vector<int8_t> sample{0,0};
 	mem.resize(QUBIT_COUNT,sample);
 }
@@ -14,8 +14,12 @@ unsigned __int8 QMEM::read(int index, unsigned __int8 dim){
 	return mem[index][dim];
 }
 
+int QMEM::touch(double probability){
+	return RAND_MAX*probability >= rand();
+}
+
 int QMEM::measure(int amplitude){
-	return gates.touch(utils.custom_pow(sin(amplitude*M_PI / 360), 2));
+	return touch(utils.custom_pow(sin(amplitude*M_PI / 360), 2));
 }
 int QMEM::fetch_register(int address){
 	char data_fetched[BUS_WIDTH + 1] = "";

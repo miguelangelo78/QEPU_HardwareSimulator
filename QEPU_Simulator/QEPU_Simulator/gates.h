@@ -10,11 +10,16 @@
 #define M_PI 3.14159265358979323846
 #include <math.h>
 #include <stdio.h>
+#include <stdarg.h>
+#include <stdlib.h>
 #include "complex.h"
 #include "utils.h"
+#include "entangler.h"
+#include "qmem.h"
+
 class Gates{
 	public:
-		Gates();
+		Gates(QMEM*quantum_memory);
 		int * X(int theta, int phi);
 		int * Y(int theta, int phi);
 		int * Z(int theta, int phi);
@@ -43,6 +48,7 @@ class Gates{
 		int * vec2ampl(Complex * vec, int qb_count);
 		Complex * kronecker(Complex * vec, int qb_count, int touch_enable);
 		Complex * reverse_kronecker(Complex * kron, int kron_size);
+		Entangler entangler;
 		Utils utils;
 };
 #endif

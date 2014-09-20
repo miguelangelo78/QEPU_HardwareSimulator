@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "qepu.h"
 
-QEPU::QEPU(char*eeprom_filepath):eeprom(eeprom_filepath){ serial.writestr("INITIALIZING . . . "); setup_seed(); program_counter = 0; program_counter_maximum = 0; }
+QEPU::QEPU(char*eeprom_filepath):eeprom(eeprom_filepath),gates(&qmem){ serial.writestr("INITIALIZING . . . "); setup_seed(); program_counter = 0; program_counter_maximum = 0; }
 
 void QEPU::setup_seed(){
 	srand(time(NULL));

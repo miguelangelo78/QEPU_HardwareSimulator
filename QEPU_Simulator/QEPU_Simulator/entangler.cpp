@@ -1,23 +1,23 @@
-#include "qmem.h"
+#include "entangler.h"
 
-QMEM::Entangler::Entangler(QMEM*quantum_memory){
+Entangler::Entangler(QMEM*quantum_memory){
 	this->quantum_memory = quantum_memory;
 }
 
-bool QMEM::Entangler::is_qbit_entangled(){
+bool Entangler::is_qbit_entangled(){
 	
 	return false;
 }
-bool QMEM::Entangler::is_gateout_entangles(){
+bool Entangler::is_gateout_entangled(){
 
 	return false;
 }
-void QMEM::Entangler::clear_entanglement(){
+void Entangler::clear_entanglement(){
 
 }
-void QMEM::Entangler::entangle(){
+void Entangler::entangle(){
 
 }
-void QMEM::Entangler::update(){
+void Entangler::update(){
 
 }

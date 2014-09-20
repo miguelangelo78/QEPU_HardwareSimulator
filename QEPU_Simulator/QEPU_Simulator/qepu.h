@@ -35,10 +35,10 @@ class QEPU{
 		void set_programcounter(int newaddress);
 		void execute(int func, int32_t op1, int32_t op2, int32_t op3);
 		QMEM qmem;
-		Serial serial;
+		Gates gates;
 		EEProm eeprom;
 		SRAM sram;
-		Gates gates;
+		Serial serial;
 		Jumpstack jumpstack;
 		Utils utils;
 		int program_counter;

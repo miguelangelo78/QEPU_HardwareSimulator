@@ -83,6 +83,7 @@
   <ItemGroup>
     <ClInclude Include="complex.h" />
     <ClInclude Include="eeprom.h" />
+    <ClInclude Include="entangler.h" />
     <ClInclude Include="gates.h" />
     <ClInclude Include="qepu.h" />
     <ClInclude Include="qepu_constants.h" />

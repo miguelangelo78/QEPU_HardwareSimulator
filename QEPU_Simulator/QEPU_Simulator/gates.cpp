@@ -2,9 +2,8 @@
 #include "gates.h"
 #include "uart.h"
 #include "qepu.h"
-#include <stdarg.h>
-#include <stdlib.h>
-Gates::Gates(){}
+
+Gates::Gates(QMEM*quantum_memory) :entangler(quantum_memory){}
 
 void print_states(int qb_count, Complex * vec, char* message){
 	if (SHOW_QUANTUMCALC){
