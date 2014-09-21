@@ -7,7 +7,7 @@ Gates::Gates(QMEM*quantum_memory) :entangler(quantum_memory){}
 
 void print_states(int qb_count, Complex * vec, char* message){
 	if (SHOW_QUANTUMCALC){
-		std::cout << message<<std::endl;
+		std::cout << message;
 		for (int i = 0; i<qb_count; i++) std::cout <<"  "<<vec[i].re << "  +  " << vec[i].im <<"i"<< std::endl;
 	}
 }
@@ -41,18 +41,41 @@ Complex * Gates::reverse_kronecker(Complex * kron, int kron_size){
 	return reversed_kronecker;
 }
 
+void Gates::init_vector(Complex*vec, int vecsize){
+	for (int i = 0; i < vecsize; i++) vec[i] = Complex(0.0f,0.0f);
+}
+Complex* Gates::split_vector(Complex* vec, int start, int length){
+	Complex * splitted_vector = new Complex [length];
+	init_vector(splitted_vector, length);
+	int splitted_vector_i = 0;
+	for (int i = start; i < length + start; i++) splitted_vector[splitted_vector_i++] = vec[i];
+	return splitted_vector;
+}
+Complex* Gates::get_subvector(Complex *vec, int index_vec){
+	return split_vector(vec, (index_vec - 1)*KRON_SIZE_EACH_VECTOR, KRON_SIZE_EACH_VECTOR);
+}
+
 Complex * Gates::kronecker(Complex * vec, int qb_count, int touch_enable){
-	if (qb_count == 1) return vec;
-	int kron_size = utils.custom_pow(2, qb_count);
+	if (qb_count == 1 || qb_count>KRON_MAX_SIZE) return vec;
+	int kron_size = (int) utils.custom_pow(2,qb_count);
 	Complex * kronvec = new Complex [kron_size];
-	int vec1i = 0;
-	int vec2i_default = VECTOR_QUBIT_SIZE;
-	int vec2i = vec2i_default;
-	for (int i = 0; i<kron_size; i++){
-		if (vec2i == qb_count * 2){ vec2i = vec2i_default; vec1i++; }
-		kronvec[i] = vec[vec1i].mul(vec[vec2i++]);
-	}
-	print_states(kron_size, kronvec, "2: After kronecker:");
+	init_vector(kronvec,kron_size);
+	
+	//SPLIT THE VECTOR INTO SEPARATE VECTORS OF SIZE 2 (EACH):
+	Complex ** vecdims = new Complex*[qb_count];
+	for (int i = 0; i < qb_count; i++) vecdims[i] = get_subvector(vec, i + 1);
+	
+	//MAKE KRONECKER PRODUCT:
+	int kron_i = 0;
+	for (int i = 0; i < KRON_SIZE_EACH_VECTOR;i++)
+	for (int j = 0; j < KRON_SIZE_EACH_VECTOR; j++)
+		if (qb_count == 3)for (int k = 0; k < KRON_SIZE_EACH_VECTOR; k++) kronvec[kron_i++] = vecdims[0][i].mul(vecdims[1][j]).mul(vecdims[2][k]);
+		else kronvec[kron_i++] = vecdims[0][i].mul(vecdims[1][j]);
+	
+	for (int i = 0; i < qb_count; i++) delete[]vecdims[i];
+	delete[] vecdims;
+	
+	print_states(kron_size, kronvec, "2: After kronecker:\n");
 	if (touch_enable){
 		//TOUCH THE ENTANGLED/SUPERPOSITIONED QUBIT BEFORE GIVING IT TO A MATRIX:
 		int binary_touch = 0;
@@ -90,19 +113,19 @@ Complex * Gates::ampl2vec(int qb_count, int theta_list[6], int phi_list[6]){
 		vec[i + 1].im = sin((theta_list[thephi_index] * M_PI) / 360)*sin((phi_list[thephi_index] * M_PI) / 180); // BETA IM
 		thephi_index++;
 	}
-	print_states(qb_count * 2, vec, "1: Before kronecker:");
+	print_states(qb_count * 2, vec, "1: Before kronecker:\n");
 	return kronecker(vec, qb_count, true); // PUT VEC INTO KRONECKER AND RETURN THE RESULT
 }
 
 int * Gates::vec2ampl(Complex * vec, int qb_count){
 	int kron_size = utils.custom_pow(2, qb_count);
-	print_states(kron_size, vec, "3: After multiplying:");
+	print_states(kron_size, vec, "3: After multiplying:\n");
 	if (qb_count>1) vec = reverse_kronecker(vec, kron_size);
 	int* newthephi = new int[qb_count * 2];
 	for (int i = 0; i < qb_count * 2; i++)
 		if (i % 2 == 0) newthephi[i] = (360 * acos(vec[i].re)) / M_PI;
 		else newthephi[i] = (180 * vec[i].arg()) / M_PI;
-	print_states(kron_size, vec, "4: After reverting kronecker: ");
+	print_states(kron_size, vec, "4: After reverting kronecker:\n");
 	return newthephi;
 }
 

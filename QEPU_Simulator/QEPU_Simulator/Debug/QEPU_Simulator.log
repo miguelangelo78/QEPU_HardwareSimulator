@@ -1,8 +1,23 @@
-﻿Build started 20/09/2014 19:39:44.
+﻿Build started 21/09/2014 04:10:15.
      1>Project "C:\Users\Miguel\Documents\GitHub\QEPU_HardwareSimulator\QEPU_Simulator\QEPU_Simulator\QEPU_Simulator.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _CRT_SECURE_NO_DEPRECATE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt QEPU_Simulator.cpp
-         QEPU_Simulator.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _CRT_SECURE_NO_DEPRECATE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt gates.cpp
+         gates.cpp
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(22): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(28): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(110): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(112): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(113): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(121): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(126): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(127): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(188): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(189): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(201): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(262): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(269): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(276): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\miguel\documents\github\qepu_hardwaresimulator\qepu_simulator\qepu_simulator\gates.cpp(307): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Miguel\Documents\GitHub\QEPU_HardwareSimulator\QEPU_Simulator\Debug\QEPU_Simulator.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Miguel\Documents\GitHub\QEPU_HardwareSimulator\QEPU_Simulator\Debug\QEPU_Simulator.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Miguel\Documents\GitHub\QEPU_HardwareSimulator\QEPU_Simulator\Debug\QEPU_Simulator.lib" /MACHINE:X86 Debug\complex.obj
          Debug\eeprom.obj
@@ -23,4 +38,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:03.33
+Time Elapsed 00:00:02.90

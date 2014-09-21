@@ -106,4 +106,6 @@
 #define DEBUG_MODE false
 #define SHOW_LAST_STATE false
 #define SHOW_QUANTUMCALC false
+#define KRON_SIZE_EACH_VECTOR 2
+#define KRON_MAX_SIZE 3
 #endif

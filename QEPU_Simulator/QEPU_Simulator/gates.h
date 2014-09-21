@@ -46,6 +46,9 @@ class Gates{
 		Complex* multiply8x8(Complex *q, Complex matrix[8][8]);
 		Complex * ampl2vec(int qb_count, int theta_list[6], int phi_list[6]);
 		int * vec2ampl(Complex * vec, int qb_count);
+		void init_vector(Complex*vec,int vecsize);
+		Complex* split_vector(Complex* vec,int start,int length);
+		Complex* get_subvector(Complex *vec,int index_vec);
 		Complex * kronecker(Complex * vec, int qb_count, int touch_enable);
 		Complex * reverse_kronecker(Complex * kron, int kron_size);
 		Entangler entangler;
