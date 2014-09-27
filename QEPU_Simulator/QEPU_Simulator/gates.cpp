@@ -17,15 +17,16 @@ int Gates::touch(double probability){
 }
 
 Complex * Gates::reverse_kronecker(Complex * kron, int kron_size){
-	//TODO: CHECK IF KRON IS ENTANGLED
-	if (entangler.is_gateout_entangled(kron)){
-		//ENTANGLE
-		std::cout << "Entangled" << std::endl;
-	}
-	//TODO: IF IT IS -> ADD THIS KRON TO THE ENTANGLEMENT LIST
+	/*ENTANGLEMENT MIGHT NOT NEED TO BE IMPLEMENTED
+		//TODO: CHECK IF KRON IS ENTANGLED
+		if (entangler.is_gateout_entangled(kron)){
+			//ENTANGLE
+			std::cout << "Entangled" << std::endl;
+		}
+		//TODO: IF IT IS -> ADD THIS KRON TO THE ENTANGLEMENT LIST
 
-	//TODO: UPDATE ALL ENTANGLEMENTS
-
+		//TODO: UPDATE ALL ENTANGLEMENTS
+	*/
 	int reversed_kron_size = (log(kron_size) / log(2)) * 2;
 	Complex * reversed_kronecker = new Complex[reversed_kron_size + 2];
 	for (int i = 0; i < reversed_kron_size;i++) reversed_kronecker[i] = Complex(0, 0);

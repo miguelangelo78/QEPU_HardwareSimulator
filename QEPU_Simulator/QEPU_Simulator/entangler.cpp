@@ -4,7 +4,7 @@ Entangler::Entangler(QMEM*quantum_memory){
 	this->quantum_memory = quantum_memory;
 }
 
-Entangler::~Entangler(){ delete quantum_memory; }
+Entangler::~Entangler(){ /*delete[] quantum_memory; */ }
 
 bool Entangler::is_gateout_entangled(Complex * vec){ // IS THIS VECTOR POSSIBLE?
 
