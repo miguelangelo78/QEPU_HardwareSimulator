@@ -91,11 +91,11 @@ void QEPU::execute(int func, int32_t op1, int32_t op2, int32_t op3){
 	case 0x0C: /*CME (compare)*/
 		flags.compare(qmem.fetch_register(op1), qmem.fetch_register(op2));
 		break;
-	case 0x0D: /*SEF (SET FLAG)*/
-		flags.flaglist[op1] = op2;
+	case 0x0D: /*SEA (SET ATTRIBUTE)*/
+		set_attribute(op1);
 		break;
-	case 0x0E: /*GEF (GET FLAG)*/
-		sram.write(op1, flags.flaglist[op2]);
+	case 0x0E: /*GEA (GET ATTRIBUTE)*/
+		get_attribute(op1);
 		break;
 		/*IMPLEMENT CONDICIONAL/INCONDICIONAL BRANCHES HERE*/
 	case 0x0F: /*BES (branch enable stack)*/

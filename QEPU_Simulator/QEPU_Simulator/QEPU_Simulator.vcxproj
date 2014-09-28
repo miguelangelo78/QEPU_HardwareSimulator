@@ -95,6 +95,7 @@
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="attributes.cpp" />
     <ClCompile Include="complex.cpp" />
     <ClCompile Include="eeprom.cpp" />
     <ClCompile Include="entangler.cpp" />

@@ -29,6 +29,8 @@ class QEPU{
 		void run();
 		Flag flags;
 	private:
+		void set_attribute(int attribute_type);
+		void get_attribute(int attribute_type);
 		void interrupt_cpu(int interrupt_type);
 		void interrupt_done();
 		void setup_seed();
