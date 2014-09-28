@@ -18,87 +18,87 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
+    <ClInclude Include="QEPU_Lib\Math\complex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
+    <ClInclude Include="QEPU_Lib\Misc\Utils\utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="qepu.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="QEPU_Lib\Modules\I2C\eeprom.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="qepu_constants.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="QEPU_Lib\Modules\QCPU\qepu.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="utils.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="QEPU_Lib\Modules\QMEM\qmem.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="qmem.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="QEPU_Lib\Modules\SRAM\sram.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="complex.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="QEPU_Lib\Modules\UART\uart.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sram.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="QEPU_Lib\Math\Quantum\entangler.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="uart.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="QEPU_Lib\Math\Quantum\gates.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="gates.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="QEPU_Lib\stdafx.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="eeprom.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="QEPU_Lib\Globals\qepu_constants.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="entangler.h">
+    <ClInclude Include="QEPU_Lib\targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="QEPU_Simulator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="qepu.cpp">
+    <ClCompile Include="QEPU_Lib\Math\complex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="utils.cpp">
+    <ClCompile Include="QEPU_Lib\Misc\Utils\utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="jumpstack.cpp">
+    <ClCompile Include="QEPU_Lib\Modules\I2C\eeprom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="qmem.cpp">
+    <ClCompile Include="QEPU_Lib\Modules\QCPU\attributes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="complex.cpp">
+    <ClCompile Include="QEPU_Lib\Modules\QCPU\flag.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="flag.cpp">
+    <ClCompile Include="QEPU_Lib\Modules\QCPU\interrupts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sram.cpp">
+    <ClCompile Include="QEPU_Lib\Modules\QCPU\jumpstack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="uart.cpp">
+    <ClCompile Include="QEPU_Lib\Modules\QCPU\qepu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="interrupts.cpp">
+    <ClCompile Include="QEPU_Lib\Modules\QMEM\qmem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gates.cpp">
+    <ClCompile Include="QEPU_Lib\Modules\SRAM\sram.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="eeprom.cpp">
+    <ClCompile Include="QEPU_Lib\Modules\UART\uart.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="entangler.cpp">
+    <ClCompile Include="QEPU_Lib\Math\Quantum\entangler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="attributes.cpp">
+    <ClCompile Include="QEPU_Lib\Math\Quantum\gates.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QEPU_Lib\stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

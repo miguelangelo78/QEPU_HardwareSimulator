@@ -1,5 +1,5 @@
-#include "stdafx.h"
-#include "qepu.h"
+#include "QEPU_Lib\stdafx.h"
+#include "QEPU_Lib\Modules\QCPU\qepu.h"
 #include <string>
 int main(int argc, char** argv){
 	if (argc != 2){ std::cerr << "Usage: "<<argv[0]<<" C:\\...\\filename.bin. Exiting..."; std::cin.get(); exit(-1); }

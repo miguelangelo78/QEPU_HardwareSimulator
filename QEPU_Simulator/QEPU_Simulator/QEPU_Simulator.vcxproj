@@ -81,38 +81,35 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="complex.h" />
-    <ClInclude Include="eeprom.h" />
-    <ClInclude Include="entangler.h" />
-    <ClInclude Include="gates.h" />
-    <ClInclude Include="qepu.h" />
-    <ClInclude Include="qepu_constants.h" />
-    <ClInclude Include="qmem.h" />
-    <ClInclude Include="sram.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="uart.h" />
-    <ClInclude Include="utils.h" />
+    <ClInclude Include="QEPU_Lib\Globals\qepu_constants.h" />
+    <ClInclude Include="QEPU_Lib\Math\complex.h" />
+    <ClInclude Include="QEPU_Lib\Math\Quantum\entangler.h" />
+    <ClInclude Include="QEPU_Lib\Math\Quantum\gates.h" />
+    <ClInclude Include="QEPU_Lib\Misc\Utils\utils.h" />
+    <ClInclude Include="QEPU_Lib\Modules\I2C\eeprom.h" />
+    <ClInclude Include="QEPU_Lib\Modules\QCPU\qepu.h" />
+    <ClInclude Include="QEPU_Lib\Modules\QMEM\qmem.h" />
+    <ClInclude Include="QEPU_Lib\Modules\SRAM\sram.h" />
+    <ClInclude Include="QEPU_Lib\Modules\UART\uart.h" />
+    <ClInclude Include="QEPU_Lib\stdafx.h" />
+    <ClInclude Include="QEPU_Lib\targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="attributes.cpp" />
-    <ClCompile Include="complex.cpp" />
-    <ClCompile Include="eeprom.cpp" />
-    <ClCompile Include="entangler.cpp" />
-    <ClCompile Include="flag.cpp" />
-    <ClCompile Include="gates.cpp" />
-    <ClCompile Include="interrupts.cpp" />
-    <ClCompile Include="jumpstack.cpp" />
-    <ClCompile Include="qepu.cpp" />
+    <ClCompile Include="QEPU_Lib\Math\complex.cpp" />
+    <ClCompile Include="QEPU_Lib\Math\Quantum\entangler.cpp" />
+    <ClCompile Include="QEPU_Lib\Math\Quantum\gates.cpp" />
+    <ClCompile Include="QEPU_Lib\Misc\Utils\utils.cpp" />
+    <ClCompile Include="QEPU_Lib\Modules\I2C\eeprom.cpp" />
+    <ClCompile Include="QEPU_Lib\Modules\QCPU\attributes.cpp" />
+    <ClCompile Include="QEPU_Lib\Modules\QCPU\flag.cpp" />
+    <ClCompile Include="QEPU_Lib\Modules\QCPU\interrupts.cpp" />
+    <ClCompile Include="QEPU_Lib\Modules\QCPU\jumpstack.cpp" />
+    <ClCompile Include="QEPU_Lib\Modules\QCPU\qepu.cpp" />
+    <ClCompile Include="QEPU_Lib\Modules\QMEM\qmem.cpp" />
+    <ClCompile Include="QEPU_Lib\Modules\SRAM\sram.cpp" />
+    <ClCompile Include="QEPU_Lib\Modules\UART\uart.cpp" />
+    <ClCompile Include="QEPU_Lib\stdafx.cpp" />
     <ClCompile Include="QEPU_Simulator.cpp" />
-    <ClCompile Include="qmem.cpp" />
-    <ClCompile Include="sram.cpp" />
-    <ClCompile Include="stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="uart.cpp" />
-    <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
