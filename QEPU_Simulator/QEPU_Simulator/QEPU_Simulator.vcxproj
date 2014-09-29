@@ -81,35 +81,47 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="QEPU_Lib\core\cpu\quantum_cpu\qepu.h" />
+    <ClInclude Include="QEPU_Lib\core\modules\io\i2c\eeprom\eeprom.h" />
+    <ClInclude Include="QEPU_Lib\core\modules\io\keyboard\keyboard.h" />
+    <ClInclude Include="QEPU_Lib\core\modules\io\uart\uart.h" />
+    <ClInclude Include="QEPU_Lib\core\modules\io\video\video_driver.h" />
+    <ClInclude Include="QEPU_Lib\core\modules\memory\manager\memory_manager.h" />
+    <ClInclude Include="QEPU_Lib\core\modules\memory\qmem\qmem.h" />
+    <ClInclude Include="QEPU_Lib\core\modules\memory\sram\sram.h" />
     <ClInclude Include="QEPU_Lib\Globals\qepu_constants.h" />
-    <ClInclude Include="QEPU_Lib\Math\complex.h" />
-    <ClInclude Include="QEPU_Lib\Math\Quantum\entangler.h" />
-    <ClInclude Include="QEPU_Lib\Math\Quantum\gates.h" />
+    <ClInclude Include="QEPU_Lib\math\complex\complex.h" />
+    <ClInclude Include="QEPU_Lib\math\gates\lib\entangler.h" />
+    <ClInclude Include="QEPU_Lib\math\gates\lib\quantum_multiplier.h" />
     <ClInclude Include="QEPU_Lib\Misc\Utils\utils.h" />
-    <ClInclude Include="QEPU_Lib\Modules\I2C\eeprom.h" />
-    <ClInclude Include="QEPU_Lib\Modules\QCPU\qepu.h" />
-    <ClInclude Include="QEPU_Lib\Modules\QMEM\qmem.h" />
-    <ClInclude Include="QEPU_Lib\Modules\SRAM\sram.h" />
-    <ClInclude Include="QEPU_Lib\Modules\UART\uart.h" />
     <ClInclude Include="QEPU_Lib\stdafx.h" />
     <ClInclude Include="QEPU_Lib\targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="QEPU_Lib\Math\complex.cpp" />
-    <ClCompile Include="QEPU_Lib\Math\Quantum\entangler.cpp" />
-    <ClCompile Include="QEPU_Lib\Math\Quantum\gates.cpp" />
+    <ClCompile Include="QEPU_Lib\core\cpu\quantum_cpu\attributes.cpp" />
+    <ClCompile Include="QEPU_Lib\core\cpu\quantum_cpu\flag.cpp" />
+    <ClCompile Include="QEPU_Lib\core\cpu\quantum_cpu\interrupts.cpp" />
+    <ClCompile Include="QEPU_Lib\core\cpu\quantum_cpu\jumpstack.cpp" />
+    <ClCompile Include="QEPU_Lib\core\cpu\quantum_cpu\qepu.cpp" />
+    <ClCompile Include="QEPU_Lib\core\modules\io\i2c\eeprom\eeprom.cpp" />
+    <ClCompile Include="QEPU_Lib\core\modules\io\keyboard\keyboard.cpp" />
+    <ClCompile Include="QEPU_Lib\core\modules\io\uart\uart.cpp" />
+    <ClCompile Include="QEPU_Lib\core\modules\io\video\video_driver.cpp" />
+    <ClCompile Include="QEPU_Lib\core\modules\memory\manager\memory_manager.cpp" />
+    <ClCompile Include="QEPU_Lib\core\modules\memory\qmem\qmem.cpp" />
+    <ClCompile Include="QEPU_Lib\core\modules\memory\sram\sram.cpp" />
+    <ClCompile Include="QEPU_Lib\math\complex\complex.cpp" />
+    <ClCompile Include="QEPU_Lib\math\gates\classical\classical_gates.cpp" />
+    <ClCompile Include="QEPU_Lib\math\gates\lib\entangler.cpp" />
+    <ClCompile Include="QEPU_Lib\math\gates\lib\quantum_multiplier.cpp" />
+    <ClCompile Include="QEPU_Lib\math\gates\quantum\quantum_gates.cpp" />
     <ClCompile Include="QEPU_Lib\Misc\Utils\utils.cpp" />
-    <ClCompile Include="QEPU_Lib\Modules\I2C\eeprom.cpp" />
-    <ClCompile Include="QEPU_Lib\Modules\QCPU\attributes.cpp" />
-    <ClCompile Include="QEPU_Lib\Modules\QCPU\flag.cpp" />
-    <ClCompile Include="QEPU_Lib\Modules\QCPU\interrupts.cpp" />
-    <ClCompile Include="QEPU_Lib\Modules\QCPU\jumpstack.cpp" />
-    <ClCompile Include="QEPU_Lib\Modules\QCPU\qepu.cpp" />
-    <ClCompile Include="QEPU_Lib\Modules\QMEM\qmem.cpp" />
-    <ClCompile Include="QEPU_Lib\Modules\SRAM\sram.cpp" />
-    <ClCompile Include="QEPU_Lib\Modules\UART\uart.cpp" />
     <ClCompile Include="QEPU_Lib\stdafx.cpp" />
     <ClCompile Include="QEPU_Simulator.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="QEPU_Lib\core\modules\io\keyboard\README.md" />
+    <None Include="QEPU_Lib\core\modules\io\video\README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
