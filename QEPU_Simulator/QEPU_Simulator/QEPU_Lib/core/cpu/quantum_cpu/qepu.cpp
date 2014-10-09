@@ -65,10 +65,10 @@ void QEPU::execute(int func, int32_t op1, int32_t op2, int32_t op3){
 	case 0x03: /*MOM (move memory)*/
 		sram.write(op1, sram.read(op2));
 		break;
-	case 0x04: /*MOMI (move memory indirect origin) */
-		sram.write(op1,sram.read(qmem.fetch_register(op2)));
+	case 0x04: /*MORI (move memory indirect origin) */
+		qmem.set_register(op1,sram.read(qmem.fetch_register(op2)));
 		break;
-	case 0x05: /*MOMD (move memory indirect destination)*/
+	case 0x05: /*MORD (move memory indirect destination)*/
 		sram.write(qmem.fetch_register(op1), qmem.fetch_register(op2));
 		break;
 	case 0x06: /*STR (store)*/
