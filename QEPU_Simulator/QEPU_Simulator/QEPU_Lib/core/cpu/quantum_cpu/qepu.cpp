@@ -194,10 +194,10 @@ void QEPU::execute(int func, int32_t op1, int32_t op2, int32_t op3){
 		qmem.set_register(op1, qmem.fetch_register(op2) / qmem.fetch_register(op3));
 		break;
 	case 0x23: /*DIV RK (div reg const)*/
-		sram.write(op1, qmem.fetch_register(op2) / op3);
+		qmem.set_register(op1, qmem.fetch_register(op2)*1.0f / op3);
 		break;
 	case 0x24: /*DIV KR (div const reg)*/
-		qmem.set_register(op1, op2 / qmem.fetch_register(op3));
+		qmem.set_register(op1, op2*1.0f / qmem.fetch_register(op3));
 		break;
 	case 0x25: /*AND*/
 		qmem.set_register(op1, qmem.fetch_register(op2)&qmem.fetch_register(op3));
