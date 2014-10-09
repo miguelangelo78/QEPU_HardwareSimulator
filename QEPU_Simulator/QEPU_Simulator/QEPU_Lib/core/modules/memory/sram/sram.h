@@ -13,7 +13,7 @@ class SRAM{
 		unsigned __int8 pop();
 		void push(unsigned __int8 register_data);
 		void permissions(bool allowed);
-		void dumpmem(int length);
+		void dumpmem(int length,bool norestritions);
 		int stack_head_offset;
 	private:
 		Utils utils;

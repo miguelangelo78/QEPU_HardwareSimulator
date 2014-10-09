@@ -22,8 +22,9 @@ void SRAM::write(int address, unsigned __int8 data){
 
 unsigned __int8 SRAM::pop(){
 	memory_management();
-	int popped_number = read(0);
 	stack_head_offset++;
+	int popped_number = read(stack_head_offset);
+	write(stack_head_offset, 0);
 	if (stack_head_offset>stack_tail_offset) return 0;
 	else return popped_number;
 }
@@ -35,8 +36,8 @@ void SRAM::push(unsigned __int8 register_data){
 		for (int i = stack_head_offset; i<stack_tail_offset; i++) write(i, ram_memory[i]);
 	}
 	else{
+		write(stack_head_offset, register_data);
 		stack_head_offset--;
-		write(0, register_data);
 	}
 }
 
@@ -46,14 +47,23 @@ int* SRAM::read_sram(){
 	return ram_memory;
 }
 
-void SRAM::dumpmem(int length){
-	memory_management();
-	int head = 0, tail = length;
-	if (length <= 0){ head = stack_head_offset; tail = stack_tail_offset; }
-	for (int i = 0; i<tail + head; i++){
-		char mem_debug_str[40];
-		sprintf(mem_debug_str, "Address: %d (Off: %d) Data: %d", i, i + stack_head_offset, read(i));
-		serial.writestrln(mem_debug_str);
+void SRAM::dumpmem(int length,bool norestritions){
+	if (norestritions){
+		for (int i = 0; i < length; i++){
+			char mem_debug_str[40];
+			sprintf(mem_debug_str, "Address: %d Data: %d", i, read(i));
+			serial.writestrln(mem_debug_str);
+		}
+	}
+	else{
+		memory_management();
+		int head = 0, tail = length;
+		if (length <= 0){ head = stack_head_offset; tail = stack_tail_offset; }
+		for (int i = 0; i<tail + head; i++){
+			char mem_debug_str[40];
+			sprintf(mem_debug_str, "Address: %d (Off: %d) Data: %d", i, i + stack_head_offset, read(i));
+			serial.writestrln(mem_debug_str);
+		}
 	}
 }
 

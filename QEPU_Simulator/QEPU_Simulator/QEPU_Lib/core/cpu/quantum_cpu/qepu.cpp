@@ -32,8 +32,9 @@ void QEPU::run(){
 	if (SHOW_LAST_STATE){
 		qmem.dumpmem(QUBIT_COUNT);
 		serial.writestrln("");
-		sram.dumpmem(5);
 	}
+	if(SHOW_SRAM) sram.dumpmem(30,true);
+	
 	serial.writestrln("");
 	serial.writestr("The execution of the program has finished");
 	std::cin.get();
@@ -70,10 +71,10 @@ void QEPU::execute(int func, int32_t op1, int32_t op2, int32_t op3){
 	case 0x05: /*LOD (load)*/
 		qmem.set_register(op1, sram.read(op2));
 		break;
-	case 0x06: /*CRW (Constant Ram Write)*/
+	case 0x06: /*CMW (Constant Memory Write)*/
 		sram.write(op1, op2);
 		break;
-	case 0x07: /*CQW* (Constant Qubit Write)*/
+	case 0x07: /*CRW* (Constant Register Write)*/
 		qmem.set_register(op1, op2);
 		break;
 	case 0x08: /*POP (pop)*/
