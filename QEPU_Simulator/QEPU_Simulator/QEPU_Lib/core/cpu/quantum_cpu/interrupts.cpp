@@ -13,7 +13,8 @@ void QEPU::interrupt_cpu(int interrupt_type){
 	while (!interrupt_signal){
 		switch (interrupt_type){
 			case INT_UART_OUT_CHAR:
-				serial.write(sram.read(data_buffer_pointer));
+				serial.write(qmem.fetch_register(INT_RESERVED_ADDRESSPOINTER));
+				//serial.write(sram.read(data_buffer_pointer));
 				interrupt_done();
 				break;
 			case INT_UART_OUT_BUFFER:
