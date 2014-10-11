@@ -5,8 +5,9 @@ SRAM::SRAM(){
 	init();
 }
 void SRAM::init(){
-	stack_head_offset = MEMORY_HEAD_PERMISSION_OFFSET + HEAD_PROGRAMMER_OFFSET;
+	//stack_head_offset = MEMORY_HEAD_PERMISSION_OFFSET + HEAD_PROGRAMMER_OFFSET;
 	stack_tail_offset = ADDRESS_MAX - MEMORY_TAIL_PERMISSION_OFFSET - TAIL_PROGRAMMER_OFFSET;
+	stack_head_offset = stack_tail_offset;
 	memory_restrictedaccess_allowed = false;
 }
 
