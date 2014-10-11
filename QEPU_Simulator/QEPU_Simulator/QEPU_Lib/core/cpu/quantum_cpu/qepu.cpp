@@ -209,7 +209,7 @@ void QEPU::execute(int func, int32_t op1, int32_t op2, int32_t op3){
 		qmem.set_register(op1, qmem.fetch_register(op2)&qmem.fetch_register(op3));
 		break;
 	case 0x28: /*AND RK (and reg const)*/
-		sram.write(op1, qmem.fetch_register(op2)&op3);
+		qmem.set_register(op1, qmem.fetch_register(op2)&op3);
 		break;
 	case 0x29: /*AND KR (and const reg)*/
 		qmem.set_register(op1, op2&qmem.fetch_register(op3));
@@ -260,16 +260,16 @@ void QEPU::execute(int func, int32_t op1, int32_t op2, int32_t op3){
 		qmem.set_register(op1, qmem.fetch_register(op2) << op3);
 		break;
 	case 0x39: /*SHL KR (shl const reg)*/
-		qmem.set_register(op1, op2 << qmem.fetch_register(op2));
+		qmem.set_register(op1, op2 << qmem.fetch_register(op3));
 		break;
 	case 0x3A: /*SHR*/
-		sram.write(op1, qmem.fetch_register(op2) >> qmem.fetch_register(op3));
+		qmem.set_register(op1, qmem.fetch_register(op2) >> qmem.fetch_register(op3));
 		break;
 	case 0x3B: /*SHR RK (shr reg const)*/
 		qmem.set_register(op1, qmem.fetch_register(op2) >> op3);
 		break;
 	case 0x3C: /*SHR KR (shr const reg)*/
-		qmem.set_register(op1, op2 >> qmem.fetch_register(op2));
+		qmem.set_register(op1, op2 >> qmem.fetch_register(op3));
 		break;
 	case 0x3D: /*INT (interrupt)*/ //NEEDS TABLE SYSTEM
 		interrupt_cpu(op1);
