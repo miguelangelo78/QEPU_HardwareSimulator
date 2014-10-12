@@ -19,16 +19,17 @@ void QEPU::run(){
 	for (program_counter = 0; program_counter<program_counter_maximum; program_counter++){
 		//FETCH OPERANDS FROM THE EEPROM:
 		int eeprom_line_selection = program_counter*line_width;
-		int func = 0;	char op1s[OP1_WIDTH] = ""; char op2s[OP2_WIDTH] = ""; char op3s[OP3_WIDTH] = "";
+		int func = 0;	char op1s[9] = ""; char op2s[9] = ""; char op3s[9] = ""; // SIZE 9 BECAUSE EACH OPERAND WILL HAVE 8 BITS OF SIZE
 		func = eeprom.read(eeprom_line_selection + FIXED_FUNC_OFFSET); // FUNCTION FETCH
 		for (int k = 0; k<QUBIT_BYTE_SIZE; k++){
-			sprintf(op1s, "%s%x", op1s, eeprom.read(eeprom_line_selection + FIXED_OP1_OFFSET + k)); // HEX CONCAT TO STRING (OP1 FETCH)
-			sprintf(op2s, "%s%x", op2s, eeprom.read(eeprom_line_selection + FIXED_OP2_OFFSET + k)); // HEX CONCAT TO STRING (OP2 FETCH)
-			sprintf(op3s, "%s%x", op3s, eeprom.read(eeprom_line_selection + FIXED_OP3_OFFSET + k)); // HEX CONCAT TO STRING (OP3 FETCH)
+			sprintf(op1s, "%s%.2x", op1s, eeprom.read(eeprom_line_selection + FIXED_OP1_OFFSET + k)); // HEX CONCAT TO STRING (OP1 FETCH)
+			sprintf(op2s, "%s%.2x", op2s, eeprom.read(eeprom_line_selection + FIXED_OP2_OFFSET + k)); // HEX CONCAT TO STRING (OP2 FETCH)
+			sprintf(op3s, "%s%.2x", op3s, eeprom.read(eeprom_line_selection + FIXED_OP3_OFFSET + k)); // HEX CONCAT TO STRING (OP3 FETCH)
 		}
 		//EXECUTE:
 		execute(func, strtol(op1s, NULL, 16), strtol(op2s, NULL, 16), strtol(op3s, NULL, 16)); //INSTRUCTION DECODE AND EXECUTE
 	}
+
 	if (SHOW_LAST_STATE){
 		qmem.dumpmem(QUBIT_COUNT);
 		serial.writestrln("");

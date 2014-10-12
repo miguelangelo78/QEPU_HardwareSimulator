@@ -10,7 +10,7 @@ int main(int argc, char** argv){
 	QEPU q((char*) binaryfile_path.c_str());
 	q.run();
 	
-	/*QEPU q("C:\\Users\\Miguel\\Desktop\\QEPU_Libs\\main.bin");
+	/*QEPU q("C:\\Users\\Miguel\\Desktop\\ex.bin");
 	q.run();*/
 	return 0;
 }

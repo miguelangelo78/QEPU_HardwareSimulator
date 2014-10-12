@@ -1,5 +1,6 @@
 #include "../../../../stdafx.h"
 #include "sram.h"
+
 SRAM::SRAM(){
 	sram_memory.resize(RAM_62256_ADDRESS_MAXSIZE);
 	init();
@@ -11,17 +12,17 @@ void SRAM::init(){
 	memory_restrictedaccess_allowed = false;
 }
 
-unsigned __int8 SRAM::read(int address){
+intq SRAM::read(int address){
 	memory_management();
 	return sram_memory[address];
 }
 
-void SRAM::write(int address, unsigned __int8 data){
+void SRAM::write(int address, intq data){
 	memory_management();
 	sram_memory[address] = data;
 }
 
-unsigned __int8 SRAM::pop(){
+intq SRAM::pop(){
 	memory_management();
 	stack_head_offset++;
 	int popped_number = read(stack_head_offset);
@@ -30,7 +31,7 @@ unsigned __int8 SRAM::pop(){
 	else return popped_number;
 }
 
-void SRAM::push(unsigned __int8 register_data){
+void SRAM::push(intq register_data){
 	memory_management();
 	if (stack_head_offset <= MEMORY_HEAD_PERMISSION_OFFSET){ //PUSH EVERY OTHER ELEMENT FORWARD ****
 		int *ram_memory = utils.arrint_shiftright(read_sram(), register_data, stack_tail_offset - stack_head_offset);

@@ -2,15 +2,15 @@
 #include "qmem.h"
 
 QMEM::QMEM(){
-	std::vector<int8_t> sample{0,0};
+	std::vector<intq> sample{ 0, 0 };
 	mem.resize(QUBIT_COUNT,sample);
 }
 
-void QMEM::write(int index, unsigned __int8 dim, unsigned __int8 deg){
+void QMEM::write(int index, intq dim, intq deg){
 	mem[index][dim] = deg;
 }
 
-unsigned __int8 QMEM::read(int index, unsigned __int8 dim){
+intq QMEM::read(int index, intq dim){
 	return mem[index][dim];
 }
 
@@ -21,7 +21,8 @@ int QMEM::touch(double probability){
 int QMEM::measure(int amplitude){
 	return touch(utils.custom_pow(sin(amplitude*M_PI / 360), 2));
 }
-int QMEM::fetch_register(int address){
+
+intq QMEM::fetch_register(int address){
 	char data_fetched[BUS_WIDTH + 1] = "";
 	int address_offset = address*BUS_WIDTH;
 	for (int i = 0; i<BUS_WIDTH; i++)
@@ -29,7 +30,8 @@ int QMEM::fetch_register(int address){
 	_strrev(data_fetched);
 	return strtol(data_fetched, NULL, 2);
 }
-void QMEM::set_register(int address, unsigned __int8 data){
+
+void QMEM::set_register(int address, intq data){
 	char* data_str = new char[BUS_WIDTH];
 	data_str = utils.int2binstr(data, BUS_WIDTH);
 	_strrev(data_str);

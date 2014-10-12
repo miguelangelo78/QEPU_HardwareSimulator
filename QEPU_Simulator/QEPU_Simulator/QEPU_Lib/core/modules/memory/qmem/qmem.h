@@ -7,16 +7,17 @@
 class QMEM{
 	public:
 		QMEM();
-		void write(int index, unsigned __int8 dim, unsigned __int8 deg);
-		unsigned __int8 read(int index, unsigned __int8 dim);
+		void write(int index, intq dim, intq deg);
+		intq read(int index, intq dim);
 		void dumpmem(int length);
-		int fetch_register(int address);
-		void set_register(int address, unsigned __int8 data);
+		intq fetch_register(int address);
+		void set_register(int address, intq data);
 	private:
 		int measure(int amplitude);
 		int touch(double probability); 
 		Serial serial;
 		Utils utils;
-		std::vector<std::vector<int8_t>> mem;
+		std::vector<std::vector<intq>> mem;
+
 };
 #endif

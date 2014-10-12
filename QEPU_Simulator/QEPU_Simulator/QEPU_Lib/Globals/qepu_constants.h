@@ -43,7 +43,7 @@
 #define IN_ABBUFFER_CLOCK 3
 #define EO_AB 4
 #define ADDRESS_WRITE_DELAY 0
-#define BUS_WIDTH 8
+#define BUS_WIDTH 16
 //EEPROM CONSTANTS:
 #define FUNC_WIDTH 1
 #define INSTR_WIDTH (FUNC_WIDTH+OP1_WIDTH+OP2_WIDTH+OP3_WIDTH)-(OP1N2_OFFSET*OPERAND_COUNT)
@@ -118,4 +118,5 @@
 #define SHOW_QUANTUMCALC false
 #define KRON_SIZE_EACH_VECTOR 2
 #define KRON_MAX_SIZE 3
+typedef unsigned __int16 intq;
 #endif
