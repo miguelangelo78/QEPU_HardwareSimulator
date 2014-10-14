@@ -12,6 +12,18 @@ void SRAM::init(){
 	memory_restrictedaccess_allowed = false;
 }
 
+void SRAM::set_stack_head(int address){
+	stack_head_offset = address;
+}
+
+void SRAM::set_stack_base(int address){
+	stack_tail_offset = address;
+}
+
+void SRAM::restart_stack(){
+	init();
+}
+
 intq SRAM::read(int address){
 	memory_management();
 	return sram_memory[address];

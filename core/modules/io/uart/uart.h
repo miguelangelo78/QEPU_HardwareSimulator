@@ -1,6 +1,6 @@
 #ifndef UART_H_
 #define UART_H_
-#include "../../../../globals/qepu_constants.h"
+#include "../../../../globals/global_constants.h"
 #include <inttypes.h>
 #include <string.h>
 #include <stdlib.h>

@@ -1,6 +1,6 @@
 #ifndef QMEM_H_
 #define QMEM_H_
-#include "../../../../globals/qepu_constants.h"
+#include "../../../../globals/global_constants.h"
 #include "../../io/uart/uart.h"
 #include "../../../../misc/utils/utils.h"
 

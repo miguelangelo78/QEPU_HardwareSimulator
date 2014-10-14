@@ -99,6 +99,10 @@ void QEPU::interrupt_cpu(int interrupt_type){
 				serial.clrscr();
 				interrupt_done();
 				break;
+			case INT_RESTARTSTACK:
+				sram.restart_stack();
+				interrupt_done();
+				break;
 		}
 		interrupt_init = true;
 	}

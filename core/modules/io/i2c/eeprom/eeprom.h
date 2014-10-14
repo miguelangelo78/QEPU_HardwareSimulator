@@ -1,6 +1,6 @@
 #ifndef _eeprom_H_
 #define _eeprom_H_
-#include "../../../../../globals/qepu_constants.h"
+#include "../../../../../globals/global_constants.h"
 #include <inttypes.h>
 class EEProm{
 	public:

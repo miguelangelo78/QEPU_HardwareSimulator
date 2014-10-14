@@ -1,6 +1,6 @@
 #ifndef QEPU_H_
 #define QEPU_H_
-#include "../../../globals/qepu_constants.h"
+#include "../../../globals/global_constants.h"
 #include "../../modules/memory/qmem/qmem.h"
 #include "../../modules/io/uart/uart.h"
 #include "../../modules/io/i2c/eeprom/eeprom.h"

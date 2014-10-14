@@ -87,8 +87,14 @@ void QEPU::execute(int func, int32_t op1, int32_t op2, int32_t op3){
 	case 0x0A: /*POP (pop)*/
 		qmem.set_register(op1, sram.pop());
 		break;
+	case 0x54: /*POPA*/
+		for (int i = REGISTER_COUNT-1; i>=0; i--) qmem.set_register(i, sram.pop());
+		break;
 	case 0x0B: /*PSH (push)*/
 		sram.push(qmem.fetch_register(op1));
+		break;
+	case 0x55: /*PUSHA*/
+		for (int i = 0; i < REGISTER_COUNT; i++) sram.push(qmem.fetch_register(i));
 		break;
 	case 0x0C: /*CMT (constantmovtheta)*/
 		qmem.write(op1, THE, op2);

@@ -1,6 +1,6 @@
 #ifndef UTILS_H_
 #define UTILS_H_
-#include "../../Globals/qepu_constants.h"
+#include "../../Globals/global_constants.h"
 #include <math.h>
 #include <limits.h>
 #include <inttypes.h>

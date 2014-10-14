@@ -1,6 +1,6 @@
 #ifndef MEMORY_MANAGER_H_
 #define MEMORY_MANAGER_H_
-#include "../../../../globals/qepu_constants.h"
+#include "../../../../globals/global_constants.h"
 
 class mem_man{
   public:
