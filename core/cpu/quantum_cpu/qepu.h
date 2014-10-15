@@ -36,7 +36,7 @@ class QEPU{
 		void interrupt_done();
 		void setup_seed();
 		void set_programcounter(int newaddress);
-		void execute(int func, int32_t op1, int32_t op2, int32_t op3);
+		void execute(int func, intq op1, intq op2, intq op3);
 		QMEM qmem;
 		Gates gates;
 		EEProm eeprom;

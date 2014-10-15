@@ -27,7 +27,7 @@ void QEPU::run(){
 			sprintf(op3s, "%s%.2x", op3s, eeprom.read(eeprom_line_selection + FIXED_OP3_OFFSET + k)); // HEX CONCAT TO STRING (OP3 FETCH)
 		}
 		//EXECUTE:
-		execute(func, strtol(op1s, NULL, 16), strtol(op2s, NULL, 16), strtol(op3s, NULL, 16)); //INSTRUCTION DECODE AND EXECUTE
+		execute(func, strtoul(op1s, NULL, 16), strtoul(op2s, NULL, 16), strtoul(op3s, NULL, 16)); //INSTRUCTION DECODE AND EXECUTE
 	}
 
 	if (SHOW_LAST_STATE){
@@ -42,7 +42,7 @@ void QEPU::run(){
 	#pragma endregion
 }
 
-void QEPU::execute(int func, int32_t op1, int32_t op2, int32_t op3){
+void QEPU::execute(int func, intq op1,intq op2, intq op3){
 	int *newthephi = nullptr;
 	if (DEBUG_MODE)
 		std::cout << "Function: " << func 

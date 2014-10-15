@@ -121,5 +121,5 @@
 #define SHOW_QUANTUMCALC false
 #define KRON_SIZE_EACH_VECTOR 2
 #define KRON_MAX_SIZE 3
-typedef unsigned __int16 intq;
+typedef unsigned __int32 intq;
 #endif
