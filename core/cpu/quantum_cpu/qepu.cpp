@@ -1,7 +1,7 @@
 #include "../../../stdafx.h"
 #include "qepu.h"
 
-QEPU::QEPU(char*eeprom_filepath):eeprom(eeprom_filepath),gates(&qmem){ serial.writestr("INITIALIZING . . . "); setup_seed(); program_counter = 0; program_counter_maximum = 0; }
+QEPU::QEPU(char*eeprom_filepath):eeprom(eeprom_filepath),gates(&qmem){ setup_seed(); program_counter = 0; program_counter_maximum = 0; }
 
 void QEPU::setup_seed(){
 	srand(time(NULL));
@@ -12,8 +12,6 @@ void QEPU::set_programcounter(int newaddress){
 }
 
 void QEPU::run(){
-	//TEMPORARY PRINTING FOR DEBUGGING PURPOSES
-	serial.writestrln(" RUNNING "); serial.writestrln("");
 	int line_width = INSTR_WIDTH;
 	program_counter_maximum = eeprom.count_lines();
 	for (program_counter = 0; program_counter<program_counter_maximum; program_counter++){
@@ -37,7 +35,7 @@ void QEPU::run(){
 	if(SHOW_SRAM) sram.dumpmem(30,true);
 	
 	serial.writestrln("");
-	serial.writestr("The execution of the program has finished");
+	serial.writestr("The execution of the program has finished.");
 	std::cin.get();
 	#pragma endregion
 }

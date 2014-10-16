@@ -17,7 +17,7 @@ class Utils{
 		int countdigits(int dec);
 		int concint(int n1, int n2);
 		void delay(int ms);
-		char *int2binstr(int num, int strlength);
+		char *long2binstr(int num, int strlength);
 		float custom_pow(float base, int exp);
 		int * arrint_shiftright(int * arr, int newelem, int array_length);
 };

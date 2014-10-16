@@ -1,6 +1,6 @@
 #include "../../stdafx.h"
 #include "utils.h"
-char * Utils::int2binstr(int num, int strlength){
+char * Utils::long2binstr(int num, int strlength){
 	char*str = new char[strlength + 1];
 	if (!str) return NULL;
 	str[strlength] = 0;

@@ -35,7 +35,7 @@ Complex * Gates::reverse_kronecker(Complex * kron, int kron_size){
 		if (kron[i].re == 1){
 			int toBinSize = log(kron_size) / log(2);
 			char *toBin = new char[toBinSize];
-			toBin = utils.int2binstr(i, toBinSize);
+			toBin = utils.long2binstr(i, toBinSize);
 			_strrev(toBin);
 			int index_rev_kro = 0; //USE ITS OWN INDEX BECAUSE J IS THE INDEX OF TOBIN AN TOBIN HAS TO GO REVERSED
 			for (int j = 0; j<reversed_kron_size; j++){
