@@ -4,7 +4,7 @@
 ---
 ###**QEPU INSTRUCTION SET (109 Functions):**
 * ###Data movement: 
->**1.** MOQ - Move qubit (from one qubit to another)
+>**1.** MOQ - Move qubit (from one qubit to another)  
 **2.** MOR - Move register
 **3.** MOM - Move memory 
 **4.** MORI - Move register indirect (using pointers)
