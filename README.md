@@ -1,5 +1,4 @@
-#**Project QEPU**
-######(Quantum Electronic Processing Unit)
+#**Project QEPU**  ######(Quantum Electronic Processing Unit)
 ###Description: 32 bit quantum processor
 ---
 ###**QEPU INSTRUCTION SET (109 Functions):**
@@ -59,7 +58,7 @@
 **49.** MOD_KR - Modulus (remainder of a division between one register - Ra = K % Rc) (unsigned)  
 **50.** SUB_ - Subtracts two registers (Ra = Rb - Rc) (unsigned)  
 **51.** SUB_RK - Subtracts one register (Ra = Rb - K) (unsigned)  
-**52.**SUB_KR - Substracts one register (Ra= K - Rc) (unsigned)  
+**52.** SUB_KR - Substracts one register (Ra= K - Rc) (unsigned)  
 **53.** MUL_ - Multiplies two registes (Ra = Rb * Rc) (unsigned)  
 **54.** MUL_RK - Multiplies one register (Ra = Rb * K) (unsigned)  
 **55.** DIV_ - Divides two registers (Ra = Rb / Rc) (unsigned)  
