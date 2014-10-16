@@ -1,4 +1,5 @@
-#**Project QEPU**  ######(Quantum Electronic Processing Unit)
+#**Project QEPU**   
+######(Quantum Electronic Processing Unit)
 ###Description: 32 bit quantum processor
 ---
 ###**QEPU INSTRUCTION SET (109 Functions):**
