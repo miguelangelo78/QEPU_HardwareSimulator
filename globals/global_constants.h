@@ -123,5 +123,5 @@
 #define KRON_SIZE_EACH_VECTOR 2
 #define KRON_MAX_SIZE 3
 #define NUMERIC_SYSTEM 32 // THIS SYSTEM WORKS IN 32 BITS
-typedef signed __int32 intq;
+typedef unsigned __int32 intq;
 #endif

@@ -15,6 +15,7 @@ class QEPU{
 			public:
 				Flag();
 				static void compare(int data1, int data2);
+				static void clear();
 				static int8_t flaglist[FLAG_COUNT];
 		};
 		class Jumpstack{

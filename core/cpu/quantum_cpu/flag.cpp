@@ -5,6 +5,11 @@ int8_t QEPU::Flag::flaglist[FLAG_COUNT];
 QEPU::Flag::Flag(){
 	flaglist[ALLOW_BRANCH_STACK] = LOW;
 }
+
+void QEPU::Flag::clear(){
+	for (int i = 0; i < FLAG_COUNT; i++) flaglist[i] = 0;
+}
+
 void QEPU::Flag::compare(int data1, int data2){
 	flaglist[CND_LWER] = (data1<data2) ? HIGH : LOW;
 	flaglist[CND_LWER_EQUAL] = (data1 <= data2) ? HIGH : LOW;
