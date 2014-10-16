@@ -66,7 +66,7 @@ void SRAM::dumpmem(int length,bool norestritions){
 	if (norestritions){
 		for (int i = 0; i < length; i++){
 			char mem_debug_str[40];
-			sprintf(mem_debug_str, "Address: %u Data: %u", i, read(i));
+			sprintf(mem_debug_str, "Address: %d Data: %d", i, read(i));
 			serial.writestrln(mem_debug_str);
 		}
 	}
@@ -76,7 +76,7 @@ void SRAM::dumpmem(int length,bool norestritions){
 		if (length <= 0){ head = stack_head_offset; tail = stack_tail_offset; }
 		for (int i = 0; i<tail + head; i++){
 			char mem_debug_str[40];
-			sprintf(mem_debug_str, "Address: %u (Off: %u) Data: %u", i, i + stack_head_offset, read(i));
+			sprintf(mem_debug_str, "Address: %d (Off: %d) Data: %d", i, i + stack_head_offset, read(i));
 			serial.writestrln(mem_debug_str);
 		}
 	}
