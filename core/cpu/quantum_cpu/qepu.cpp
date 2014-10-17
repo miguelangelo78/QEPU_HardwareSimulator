@@ -237,13 +237,13 @@ void QEPU::execute(int func, intq op1,intq op2, intq op3){
 		qmem.set_register(op1, qmem.fetch_register(op2) + op3);
 		break;
 	case 0x2C: /*INC (increment)*/
-		qmem.set_register(op1, qmem.fetch_register(op2)+1);
+		qmem.set_register(op1, qmem.fetch_register(op1)+1);
 		break;
 	case 0x2D: /*DEC (decrement)*/
-		qmem.set_register(op1, qmem.fetch_register(op2)-1);
+		qmem.set_register(op1, qmem.fetch_register(op1)-1);
 		break;
 	case 0x2E: /*ABS (absolute)*/
-		qmem.set_register(op1, abs((__int32) qmem.fetch_register(op2)));
+		qmem.set_register(op1, abs((long) qmem.fetch_register(op2)));
 		break;
 	case 0x2F: /*MOD (modulus)*/
 		qmem.set_register(op1,qmem.fetch_register(op2)%qmem.fetch_register(op3));
