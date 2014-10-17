@@ -23,10 +23,10 @@ int QMEM::measure(int amplitude){
 }
 
 intq QMEM::fetch_register(int address){
-	char data_fetched[REGISTER_SIZE + 1] = "";
+	char *data_fetched = new char[REGISTER_SIZE+1];
 	int address_offset = address*REGISTER_SIZE;
-	for (int i = 0; i<REGISTER_SIZE; i++)
-		sprintf(data_fetched, "%s%d", data_fetched, measure(read(address_offset + i, THE)));
+	for (int i = 0; i < REGISTER_SIZE; i++)
+		sprintf(data_fetched, "%s%i", data_fetched, measure(read(address_offset + i, THE)));
 	_strrev(data_fetched);
 	return strtoul(data_fetched, NULL, 2);
 }
