@@ -47,12 +47,11 @@ void RegInterface::dumpmem(int length){
 }
 
 void RegInterface::write(int index, int dim, intq deg){
-	if (device_id == ID_REG_QMEM) qmem.write(index, dim, deg);
+	qmem.write(index, dim, deg);
 }
 
 intq RegInterface::read(int index, intq dim){
-	if (device_id == ID_REG_QMEM) return qmem.read(index,dim);
-	else return 0;
+	return qmem.read(index,dim);
 }
 
 QMEM RegInterface::get_quantummemory(){

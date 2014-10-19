@@ -34,7 +34,7 @@ void QEPU::run(){
 	}
 
 	if (SHOW_LAST_STATE){
-		reg_in.get_quantummemory().dumpmem(QUBIT_COUNT);
+		reg_in.get_quantummemory().dumpmem(10);
 		serial.writestrln("");
 	}
 	if (SHOW_SRAM) sram.dumpmem(30,true);
@@ -69,11 +69,21 @@ void QEPU::execute(int func, intq op1, byte op1meta, intq op2, byte op2meta, int
 				reg_in.write(op1, THE, reg_in.read(op2, THE));
 				reg_in.write(op1, PHI, reg_in.read(op2, PHI));
 			}
+			if (op1type == TYPE_QUBIT && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS)){
+				reg_in.write(op1, THE, op2);
+				reg_in.write(op1, PHI, op2);
+			}
 			if (op1type == TYPE_QUBIT_THETA && op2type == TYPE_QUBIT_THETA){
 				reg_in.write(op1, THE, reg_in.read(op2, THE));
 			}
+			if (op1type == TYPE_QUBIT_THETA && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS)){
+				reg_in.write(op1, THE, op2);
+			}
 			if (op1type == TYPE_QUBIT_PHI && op2type == TYPE_QUBIT_PHI){
 				reg_in.write(op1, PHI, reg_in.read(op2, PHI));
+			}
+			if (op1type == TYPE_QUBIT_PHI && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS)){
+				reg_in.write(op1, PHI, op2);
 			}
 			if(op1type == TYPE_QUBIT_THETA && op2type == TYPE_QUBIT_PHI){
 				reg_in.write(op1, THE, reg_in.read(op2, PHI));
@@ -212,7 +222,6 @@ void QEPU::execute(int func, intq op1, byte op1meta, intq op2, byte op2meta, int
 				reg_in.write(op1, regp2);
 			}
 			//
-
 			break;
 		case POP:
 			if (op1type == TYPE_CREG){

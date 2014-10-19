@@ -8,7 +8,10 @@ Gates::Gates(QMEM*quantum_memory) :entangler(quantum_memory){}
 void print_states(int qb_count, Complex * vec, char* message){
 	if (SHOW_QUANTUMCALC){
 		std::cout << message;
-		for (int i = 0; i<qb_count; i++) std::cout <<"  "<<vec[i].re << "  +  " << vec[i].im <<"i"<< std::endl;
+		for (int i = 0; i < qb_count; i++){
+			printf("\t%.3f + %.3fi\n", vec[i].re, vec[i].im);
+			//std::cout << "  " << vec[i].re << "  +  " << vec[i].im << "i" << std::endl;
+		}
 	}
 }
 
@@ -28,7 +31,7 @@ Complex * Gates::reverse_kronecker(Complex * kron, int kron_size){
 		//TODO: UPDATE ALL ENTANGLEMENTS
 	*/
 	int reversed_kron_size = (log(kron_size) / log(2)) * 2;
-	Complex * reversed_kronecker = new Complex[reversed_kron_size + 2];
+	Complex * reversed_kronecker = new Complex[reversed_kron_size+2];
 	for (int i = 0; i < reversed_kron_size;i++) reversed_kronecker[i] = Complex(0, 0);
 
 	for (int i = 0; i<kron_size; i++)
@@ -38,14 +41,15 @@ Complex * Gates::reverse_kronecker(Complex * kron, int kron_size){
 			toBin = utils.long2binstr(i, toBinSize);
 			_strrev(toBin);
 			int index_rev_kro = 0; //USE ITS OWN INDEX BECAUSE J IS THE INDEX OF TOBIN AN TOBIN HAS TO GO REVERSED
-			for (int j = 0; j<reversed_kron_size; j++){
-				if (toBin[j] == '1') reversed_kronecker[index_rev_kro + 1] = Complex(1, 0);
+			for (int j = toBinSize - 1; j >= 0; j--){
+				if (toBin[j] == '1') reversed_kronecker[index_rev_kro+1] = Complex(1, 0);
 				else reversed_kronecker[index_rev_kro] = Complex(1, 0); 
-				index_rev_kro += 2;
+				index_rev_kro +=2;
 			}
+			delete [] toBin;
 			break;
 		}
-	delete [] kron;
+	
 	return reversed_kronecker;
 }
 
@@ -133,7 +137,7 @@ int * Gates::vec2ampl(Complex * vec, int qb_count){
 	for (int i = 0; i < qb_count * 2; i++)
 		if (i % 2 == 0) newthephi[i] = (360 * acos(vec[i].re)) / M_PI;
 		else newthephi[i] = (180 * vec[i].arg()) / M_PI;
-	print_states(kron_size, vec, "4: After reverting kronecker:\n");
+	print_states((log(kron_size)/log(2))*2, vec, "4: After reverting kronecker:\n");
 	return newthephi;
 }
 
