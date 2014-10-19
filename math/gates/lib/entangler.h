@@ -1,6 +1,6 @@
 #ifndef ENTANGLER_H_
 #define ENTANGLER_H_
-#include "../../../core/modules/memory/qmem/qmem.h"
+#include "../../../core/cpu/registers/quantum/qmem/qmem.h"
 #include "../../complex/complex.h"
 
 class Entangler{

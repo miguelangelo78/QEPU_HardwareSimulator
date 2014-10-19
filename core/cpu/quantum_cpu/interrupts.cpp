@@ -8,13 +8,12 @@ void QEPU::interrupt_cpu(int interrupt_type){
 	//NEEDS RESERVED REGISTERS USED FOR DATA SAVING -> SHOULD SAVE ON A REGISTER,NOT SRAM
 	int address_pointer_offset = 0;
 	//SPECIAL ADDRESSESS:
-	int data_buffer_pointer = qmem.fetch_register(INT_RESERVED_ADDRESSPOINTER);
-	int data_in_registerpointer = qmem.fetch_register(INT_RESERVED_ADDRESSDATASTORE);
+	int data_buffer_pointer = reg_in.readc(INT_RESERVED_ADDRESSPOINTER);
+	int data_in_registerpointer = reg_in.readc(INT_RESERVED_ADDRESSDATASTORE);
 	while (!interrupt_signal){
 		switch (interrupt_type){
 			case INT_UART_OUT_CHAR:
-				serial.write(qmem.fetch_register(INT_RESERVED_ADDRESSPOINTER));
-				//serial.write(sram.read(data_buffer_pointer));
+				serial.write(reg_in.readc(INT_RESERVED_ADDRESSPOINTER));
 				interrupt_done();
 				break;
 			case INT_UART_OUT_BUFFER:
@@ -73,12 +72,12 @@ void QEPU::interrupt_cpu(int interrupt_type){
 				}
 				break;
 			case INT_UART_OUT_CHARAT:
-				serial.writeat(sram.read(data_buffer_pointer), qmem.fetch_register(INT_REGDATA_BUFFER), qmem.fetch_register(INT_REGDATA_BUFFER + 1));
+				serial.writeat(sram.read(data_buffer_pointer), reg_in.readc(INT_REGDATA_BUFFER), reg_in.readc(INT_REGDATA_BUFFER + 1));
 				interrupt_done();
 				break;
 			case INT_UART_OUT_BUFFAT:
 				{
-					if (!interrupt_init) serial.gotoxy(qmem.fetch_register(INT_REGDATA_BUFFER), qmem.fetch_register(INT_REGDATA_BUFFER + 1));
+					if (!interrupt_init) serial.gotoxy(reg_in.readc(INT_REGDATA_BUFFER), reg_in.readc(INT_REGDATA_BUFFER + 1));
 					int data_read = sram.read(data_buffer_pointer + address_pointer_offset);
 					if (data_read == STRING_TERMINATOR){interrupt_done();serial.gotoxy_reset();}
 					else{
@@ -88,7 +87,7 @@ void QEPU::interrupt_cpu(int interrupt_type){
 				}
 				break;
 			case INT_UART_GOTOXY:
-				serial.gotoxy(qmem.fetch_register(INT_REGDATA_BUFFER), qmem.fetch_register(INT_REGDATA_BUFFER + 1));
+				serial.gotoxy(reg_in.readc(INT_REGDATA_BUFFER), reg_in.readc(INT_REGDATA_BUFFER + 1));
 				interrupt_done();
 				break;			
 			case INT_UART_GOTOXY_RESET:
@@ -103,11 +102,13 @@ void QEPU::interrupt_cpu(int interrupt_type){
 				sram.restart_stack();
 				interrupt_done();
 				break;
+			case INT_FLAGCLEAR: flags.clear(); break;
 		}
 		interrupt_init = true;
 	}
 	interrupt_signal = false;
 }
+
 void QEPU::interrupt_done(){
 	interrupt_signal = true;
 }

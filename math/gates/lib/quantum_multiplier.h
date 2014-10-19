@@ -15,7 +15,7 @@
 #include "complex.h"
 #include "entangler.h"
 #include "../../../misc/utils/utils.h"
-#include "../../../core/modules/memory/qmem/qmem.h"
+#include "../../../core/cpu/registers/quantum/qmem/qmem.h"
 
 class Gates{
 	public:

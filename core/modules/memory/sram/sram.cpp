@@ -32,7 +32,6 @@ intq SRAM::read(int address){
 void SRAM::write(int address, intq data){
 	memory_management();
 	sram_memory[address] = data;
-
 }
 
 intq SRAM::pop(){

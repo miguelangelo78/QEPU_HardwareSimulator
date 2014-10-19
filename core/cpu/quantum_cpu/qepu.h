@@ -1,7 +1,8 @@
 #ifndef QEPU_H_
 #define QEPU_H_
 #include "../../../globals/global_constants.h"
-#include "../../modules/memory/qmem/qmem.h"
+#include "../../../globals/instruction_set.h"
+#include "../registers/reg_interface.h"
 #include "../../modules/io/uart/uart.h"
 #include "../../modules/io/i2c/eeprom/eeprom.h"
 #include "../../modules/memory/sram/sram.h"
@@ -37,8 +38,8 @@ class QEPU{
 		void interrupt_done();
 		void setup_seed();
 		void set_programcounter(int newaddress);
-		void execute(int func, intq op1, intq op2, intq op3);
-		QMEM qmem;
+		void execute(int func, intq op1, byte op1meta, intq op2, byte op2meta, intq op3, byte op3meta);
+		RegInterface reg_in;
 		Gates gates;
 		EEProm eeprom;
 		SRAM sram;
