@@ -259,6 +259,14 @@ void QEPU::execute(int func, intq op1, byte op1meta, intq op2, byte op2meta, int
 			if (op1type == TYPE_MEM_CONTAINER){
 				sram.push(sram.read(op1));
 			}
+			if (op1type == TYPE_CREG_POINTER){
+				reg_in.setid(ID_REG_CMEM);
+				sram.push(sram.read(reg_in.read(op1)));
+			}
+			if (op1type == TYPE_QREG_POINTER){
+				reg_in.setid(ID_REG_QMEM);
+				sram.push(sram.read(reg_in.read(op1)));
+			}
 			break;
 		case PUSHA:
 			reg_in.setid(ID_REG_CMEM);
@@ -322,19 +330,16 @@ void QEPU::execute(int func, intq op1, byte op1meta, intq op2, byte op2meta, int
 				flags.compare(reg_in.read(op1), reg2);
 			}
 			//
-			if ((op1type == TYPE_CONSTANT || op1type == TYPE_MEM_ADDRESS) && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS)){
+			if ((op1type == TYPE_CONSTANT || op1type == TYPE_MEM_ADDRESS) && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS))
 				flags.compare(op1, op2);
-			}
 			break;
 		case SET:
-			if ((op1type == TYPE_CONSTANT || op1type == TYPE_MEM_ADDRESS)){
+			if ((op1type == TYPE_CONSTANT || op1type == TYPE_MEM_ADDRESS))
 				set_attribute(op1);
-			}
 			break;
 		case GET:
-			if ((op1type == TYPE_CONSTANT || op1type == TYPE_MEM_ADDRESS)){
+			if ((op1type == TYPE_CONSTANT || op1type == TYPE_MEM_ADDRESS))
 				get_attribute(op1);
-			}
 			break;
 		case BRC: // CONDITION IS INSIDE A REGISTER
 			if (op1type == TYPE_CREG || op1type == TYPE_QREG || op1type == TYPE_CONSTANT || op1type == TYPE_MEM_ADDRESS){
