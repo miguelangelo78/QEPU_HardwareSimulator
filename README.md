@@ -1,143 +1,174 @@
-#**Project QEPU**   
-######(Quantum Electronic Processing Unit)
-###Description: 32 bit quantum processor
+#**Project QEPU** - Hardware
+###32 bit quantum processor
+######(QEPU: Quantum Electronic Processing Unit) 
+>![bloch sphere qubit representation](http://i.imgur.com/HtjlQ3l.png?1)  
+	(bloch sphere qubit representation)
+
 ---
-###**QEPU INSTRUCTION SET (109 Functions):**
-* ###Data movement: 
->**1.** MOQ - Move qubit (from one qubit to another)  
-**2.** MOR - Move register  
-**3.** MOM - Move memory  
-**4.** MORI - Move register indirect (using pointers)  
-**5.** MORD - Move register indirect destination (using pointers)  
-**6.** STORE - Store from registers to memory  
-**7.** LOAD - Load from memory to registers  
-**8.** CMW - Constant memory write (writes a constant on memory)  
-**9.** CRW - Constant register write (writes a constant on a register)  
-**10.** POP - Pops a value from the memory to a register  
-**11.** POPA - Pops values from the memory stack to all registers  
-**12.** PUSH - Pushes a value from the register to the memory stack  
-**13.** PUSHA - Pushes all registers to the memory stack  
-**14.** CMTH - Constant move theta (sets the dimension theta of a specified qubit to a constant angle)  
-**15.** CMPH - Constant move phi (sets the dimension phi of a specified qubit to a constant angle)  
-
-* ###Logic and functions: 
->**16.** CMP - Compare (compares two registers) 
-**17.** SEA - Set attribute (sets flags, stack head and base and more in the future)  
-**18.** GEA - Get attribute (gets flags, stack head and base and more in the future)  
-**19.** FLC - Flag Clear (empties all flags)  
-**20.** BES - Branch enable stack (enables the callstack for branching)  
-**21.** BLW - Branch if lower  
-**22.** BLE - Branch if lower or equal  
-**23.** BEQ - Branch if equal  
-**24.** BGE - Branch if greater or equal  
-**25.** BGR - Branch if greater  
-**26.** BDI - Branch if different  
-**27.** BZE - Branch if zero  
-**28.** BNZ - Branch if not zero  
-**29.** BLWR - Branch if lower (uses register as a label pointer)  
-**30.** BLER - Branch if lower or equal (uses register as a label pointer)  
-**31.** BEQR - Branch if equal (uses register as a label pointer)  
-**32.** BGER - Branch if greater or equal (uses register as a label pointer)  
-**33.** BGRR - Branch if greater (uses register as a label pointer)  
-**34.** BDIR - Branch if different (uses register as a label pointer)  
-**35.** BZER - Branch if zero (uses register as a label pointer)  
-**36.** BNZR - Branch if not zero  
-**37.** CALL - Call jumps to a label incondicionally (uses callstack [or jumpstack, named by me])  
-**38.** RET - Ret function returns from a call incondicionally (uses callstack [or jumpstack, named by me])  
-**39.** JMP - Jumps incondicionally  
-**40.** JMPR - Jumps incondicionally (uses register as a label pointer)  
-**41.** CALLR - Call jumps to a label incondicionally (uses register as a label pointer and callstack [or jumpstack, named by me])  
-
-* ###Arithmetic:  
->**42.** ADD_ - Adds two registers (Ra = Rb + Rc) (unsigned)  
-**43.** ADD_RK - Adds one register (Ra = Rb + K) (unsigned)  
-**44.** INC - Increments a register  
-**45.** DEC - Decrements a register  
-**46.** ABS - Absolute value of a number (unsigned [forced])  
-**47.** MOD_ - Modulus (remainder of a division between two registers -  Ra = Rb % Rc) (unsigned)  
-**48.** MOD_RK - Modulus (remainder of a division between one register -  Ra = Rb % K) (unsigned)  
-**49.** MOD_KR - Modulus (remainder of a division between one register - Ra = K % Rc) (unsigned)  
-**50.** SUB_ - Subtracts two registers (Ra = Rb - Rc) (unsigned)  
-**51.** SUB_RK - Subtracts one register (Ra = Rb - K) (unsigned)  
-**52.** SUB_KR - Substracts one register (Ra= K - Rc) (unsigned)  
-**53.** MUL_ - Multiplies two registes (Ra = Rb * Rc) (unsigned)  
-**54.** MUL_RK - Multiplies one register (Ra = Rb * K) (unsigned)  
-**55.** DIV_ - Divides two registers (Ra = Rb / Rc) (unsigned)  
-**56.** DIV_RK - Divides one register (Ra = Rb / K) (unsigned)  
-**57.** DIV_KR - Divides one register (Ra = K / Rc) (unsigned)  
-**58.** AND_ - Ands two registers (Ra = Rb & Rc)  
-**59.** AND_RK - Ands one register (Ra = Rb & K)  
-**60.** AND_KR - Ands one register (Ra = K & Rc)  
-**61.** OR_ - Ors two registers (Ra = Rb | Rc)  
-**62.** OR_RK - Ors one register (Ra = Rb | K)  
-**63.** OR_KR - Ors one register (Ra = K | Rc)  
-**64.** NOR_ - Nors two registers (Ra = Rb !| Rc)  
-**65.** NOR_RK - Nors one register (Ra = Rb !| K)  
-**66.** NOR_KR - Nors one register (Ra = K !| Rc)  
-**67.** XOR_ - Xors two registers (Ra = Rb xor Rc)  
-**68.** XOR_RK - Xors one register (Ra = Rb xor K)  
-**69.** XOR_KR - Xors one register (Ra = K xor Rc)  
-**70.** NAND_ - Nands two registers (Ra = Rb !& Rc)  
-**71.** NAND_RK - Nands one register (Ra = Rb !& K)  
-**72.** NAND_KR - Nands one register (Ra = K !& Rc)  
-**73.** NOT - Nots a register  
-**74.** SHL_ - Shifts left a register (Ra = Rb << Rc)  
-**75.** SHL_RK - Shifts left a register with K (Ra = Rb << K)  
-**76.** SHL_KR - Shifts left a register with K (Ra = K << Rc)  
-**77.** SHR_ - Shifts right a register (Ra = Rb >> Rc)  
-**78.** SHR_RK - Shifts right a register with K (Ra = Rb >> K)  
-**79**. SHR_KR - Shifts right a register with K (Ra = K >> Rc)  
-**80.** NEG - Negates a register  
-**81.** ROL_ - Rols left a register (Ra = Rb rol Rc)  
-**82.** ROL_RK - Rols left a register with K (Ra =  Rb rol K)  
-**83.** ROL_KR - Rols left a register with K (Ra = K rol Rc)  
-**84.** ROR_ - Rols right a register (Ra = Rb ror Rc)  
-**85.** ROR_RK - Rols right a register with K (Ra =  Rb ror K)  
-**86.** ROR_KR - Rols right a register with K (Ra = K ror Rc)  
-
-* ###Misc and system functions:  
->**87.** INT - Calls a system interrupt  
-**88.** DELAY - Delays the machine in miliseconds  
-**89.** NOP - Does nope  
-**90.** HLT - Halts the machine  
-
-* ###Quantum functions  
->**91.** X - Quantum X gate  
-**92.** Y - Quantum Y gate  
-**93.** Z - Quantum Z gate  
-**94.** H - Quantum Hadamard gate  
-**95.** S - Quantum Phase S gate  
-**96.** T - Quantum Phase T gate  
-**97.** ROX - Quantum Rotate X gate  
-**98.** ROY - Quantum Rotate Y gate  
-**99.** ROZ - Quantum Rotate Z gate  
-***100*.** CNOT - Quantum controlled not gate  
-**101.** CSIGN - Quantum csign gate  
-**102.** SWAP - Quantum swap gate  
-**103.** QINC - Quantum increment gate  
-**104.** QDEC - Quantum decrement gate  
-**105.** SWAPQ - Quantum swap square gate  
-**106.** SWAPI - Quantum swap imaginary gate  
-**107.** CSWAP - Quantum controlled swap gate (fredkin gate)  
-**108.** TOFF - Quantum toffoli gate  
-**109.** DEU - Quantum deutsch gate  
-
-----------
-
-Sintaxes: 
-------------
-```
-Coming soon . . . 
-```
-
-
-----------
-
-
-Instruction required sizes:
+Intro:
 ------------
 ```
 Coming soon . . .
 ```
+__________
+Potential:
+------------
+```
+Coming soon . . .
+```
+__________
+#**Specifications**:
 
+###**INSTRUCTION SET (64 Functions):**
+>###Data movement:
+>**1.** MOV - Moves data between the registers and primary memory  
+	**2.** PUSH - Pushes data to the stack in memory  
+	**3.** PUSHA - Pushes all registers to the stack in memory  
+	**4.** PUSHAQ - Pushes all quantum registers to the stack in memory  
+	**5.** POP - Pops data from the stack to a register or another memory address  
+	**6.** POPA - Pops data to all the registers  
+	**7.** POPAQ - Pops data to all the quantum registers  
+###Conditional and incondicional branching:
+>**8.** CMP - Compares two values between registers and memory addresses  
+	**9.** SET - Sets an attribute/property on the CPU  
+	**10.** GET - Gets an attribute/property on the CPU  
+	**11.** BRC - Conditional Branching which fetches the condition from a register (useful for functions and routines)  
+	**12.** BLW - Branch to an address if flag 'LOWER' is set  
+	**13.** BLE - Branch to an address if flag 'LOWER OR EQUAL' is set  
+	**14.** BEQ - Branch to an address if flag 'EQUAL' is set  
+	**15.** BGE - Branch to an address if flag 'GREATER OR EQUAL' is set  
+	**16.** BGR - Branch to an address if flag 'GREATER' is set  
+	**17.** BDI - Branch to an address if flag 'DIFFERENT' is set  
+	**18.** BZE - Branch to an address if flag 'ZERO' is set  
+	**19.** BNZ - Branch to an address if flag 'NOT ZERO' is set  
+	**20.** CALL - Jumps inconditionally to an address and pushes the address from where it was called into a jumpstack/callstack  
+	**21.** JMP - Jumps inconditionally without using a jumpstack/callstack  
+	**22.** RET - Jumps to the address that is on top of the jumpstack/callstack by popping its value  
+###Arithmetic:
+>**23.** ADD - Adds **two** registers and stores the result in another register  
+**24.** SUB - Subtracts **two** registers and stores the result in another register  
+**25.** MUL- Multiplies **two** registers and stores the result in another register  
+**26.** DIV - Divides **two** registers and stores the result in another register  
+**27.** INC - Increments **one** register  
+**28.** DEC - Decrements **one** register  
+**29.** ABS - Applies absolute operator to **one** register and stores the result in another register  
+**30.** MOD - Applies the modulus operator to **two** registers and stores the result in another  
+**31.** NEG - Negates **one** register and stores the result in another register  
+register  
+###Logic:
+>**32.** AND - "Ands" **two** registers and stores the result in another register  
+**33.** OR -  "Ors" **two** registers and stores the result in another register  
+**34.** NOR - "Nors" **two** registers and stores the result in another register  
+**35.** XOR - "Xors" **two** registers and stores the result in another register  
+**36.** NAND - "Nands" **two** registers and stores the result in another register  
+**37.** NOT - Inverts **one** register and stores the result in another register  
+**38.** SHL - Shifts left **one** register using another and stores the result in another register  
+**39.** SHR - Shifts right **one** register using another and stores the result in another register  
+**40.** ROL - Rotates left **one** register using another and stores the result in another register  
+**41.** ROR - Rotates right **one** register using another and stores the result in another register  
+###Misc and system functions/interrupts:
+>**42.** INT - Calls a system interrupt  
+**43.** DELAY - Delays the machine in miliseconds  
+**44.** NOP - Does nope  
+**45.** HALT - Halts the machine  
+###Quantum functions:
+>**46.** X - Quantum X gate  
+**47.** Y - Quantum Y gate  
+**48.** Z - Quantum Z gate  
+**49.** H - Quantum Hadamard gate  
+**50.** S - Quantum Phase S gate  
+**51.** T - Quantum Phase T gate  
+**52.** ROX - Quantum Rotate X gate  
+**53.** ROY - Quantum Rotate Y gate  
+**54.** ROZ - Quantum Rotate Z gate  
+**55.** CNOT - Quantum controlled not gate  
+**56.** CSIGN - Quantum csign gate  
+**57.** SWAP - Quantum swap gate  
+**58.** QINC - Quantum increment gate  
+**59.** QDEC - Quantum decrement gate  
+**60.** SWAPQ - Quantum swap square gate  
+**61.** SWAPI - Quantum swap imaginary gate  
+**62.** CSWAP - Quantum controlled swap gate (fredkin gate)  
+**63.** TOFF - Quantum toffoli gate  
+**64.** DEU - Quantum deutsch gate  
+
+----------
+Sintaxes:
+------------
+```
+Coming soon . . . 
+```
+----------
+System properties:
+------------
+```
+Coming soon . . . 
+```
+----------
+Available registers:
+------------
+```
+Coming soon . . . 
+```
+----------
+Primary memory properties:
+------------
+```
+Coming soon . . . 
+```
+----------
+Operator sizes and types:
+------------
+```
+Coming soon . . .
+```
+----------
+Available casts:
+------------
+```
+Coming soon . . .
+```
+__________
+I/O:
+------------
+```
+Coming soon . . .
+```
+__________
+Data storage (permanent and volatile):
+------------
+```
+Coming soon . . .
+```
+__________
+Quantum computation:
+------------
+```
+Coming soon . . .
+```
+__________
+Limitations:
+------------
+```
+Coming soon . . .
+```
+__________
+Example code:
+------------
+```
+Coming soon . . .
+```
+__________
+The future:
+------------
+```
+Coming soon . . . 
+```
+----------
+About:
+------------
+```
+Coming soon . . . 
+```
+----------
 
