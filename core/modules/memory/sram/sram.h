@@ -15,6 +15,8 @@ class SRAM{
 		void permissions(bool allowed);
 		void set_stack_head(int address);
 		void set_stack_base(int address);
+		intq SRAM::get_stack_base();
+		intq SRAM::get_stack_head();
 		void restart_stack();
 		void dumpmem(int length,bool norestritions);
 		int stack_head_offset;

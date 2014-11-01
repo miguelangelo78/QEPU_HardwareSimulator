@@ -19,6 +19,11 @@ void RegInterface::write(int address, intq data){
 	}
 }
 
+void RegInterface::writeid(byte id, int address, intq data){
+	setid(id);
+	write(address, data);
+}
+
 intq RegInterface::read(int address){
 	intq data_read = 0;
 	switch (device_id){
@@ -30,6 +35,11 @@ intq RegInterface::read(int address){
 			break;
 		}
 	return data_read;
+}
+
+intq RegInterface::readid(byte id, int address){
+	setid(id);
+	return read(address);
 }
 
 void RegInterface::writec(int address, intq data){

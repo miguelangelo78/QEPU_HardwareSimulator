@@ -7,7 +7,9 @@ public:
 	RegInterface();
 	void setid(byte id);
 	void write(int address,intq data);
+	void writeid(byte id, int address, intq data);
 	intq read(int address);
+	intq readid(byte id, int address);
 	void writec(int address, intq data);
 	intq readc(int address);
 	void dumpmem(int length);

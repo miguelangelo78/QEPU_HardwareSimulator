@@ -94,241 +94,238 @@ void QEPU::execute(int func, intq op1, byte op1meta, intq op2, byte op2meta, int
 			//
 
 			//
-			if (op1type == TYPE_MEM_CONTAINER && op2type == TYPE_MEM_CONTAINER){
+			if (op1type == TYPE_MEM_CONTAINER && op2type == TYPE_MEM_CONTAINER)
 				sram.write(op1, sram.read(op2));
-			}
-			if (op1type == TYPE_MEM_CONTAINER && op2type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				sram.write(op1, reg_in.read(op2));
-			}
-			if (op1type == TYPE_MEM_CONTAINER && op2type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				sram.write(op1, reg_in.read(op2));
-			}
-			if (op1type == TYPE_CREG && op2type == TYPE_MEM_CONTAINER){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, sram.read(op2));
-			}
-			if (op1type == TYPE_QREG && op2type == TYPE_MEM_CONTAINER){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, sram.read(op2));
-			}
-			if (op1type == TYPE_MEM_CONTAINER && op2type == TYPE_CREG_POINTER){
-				reg_in.setid(ID_REG_CMEM);
-				sram.write(op1, sram.read(reg_in.read(op2)));
-			}
-			if (op1type == TYPE_MEM_CONTAINER && op2type == TYPE_QREG_POINTER){
-				reg_in.setid(ID_REG_QMEM);
-				sram.write(op1, sram.read(reg_in.read(op2)));
-			}
-			if (op1type == TYPE_MEM_CONTAINER && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS)){
+			
+			if (op1type == TYPE_MEM_CONTAINER && op2type == TYPE_CREG)
+				sram.write(op1, reg_in.readid(ID_REG_CMEM,op2));
+			
+			if (op1type == TYPE_MEM_CONTAINER && op2type == TYPE_QREG)
+				sram.write( op1, reg_in.readid(ID_REG_QMEM,op2));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_MEM_CONTAINER)
+				reg_in.writeid(ID_REG_CMEM,op1, sram.read(op2));
+			
+			if (op1type == TYPE_QREG && op2type == TYPE_MEM_CONTAINER)
+				reg_in.writeid(ID_REG_QMEM,op1, sram.read(op2));
+			
+			if (op1type == TYPE_MEM_CONTAINER && op2type == TYPE_CREG_POINTER)
+				sram.write(op1, sram.read(reg_in.readid(ID_REG_CMEM,op2)));
+			
+			if (op1type == TYPE_MEM_CONTAINER && op2type == TYPE_QREG_POINTER)
+				sram.write(op1, sram.read(reg_in.readid(ID_REG_QMEM,op2)));
+			
+			if (op1type == TYPE_MEM_CONTAINER && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS))
 				sram.write(op1, op2);
-			}
+			
 			//
 
 			//
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1,reg_in.read(op2));
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1,op2);
-			}
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM,op1, reg_in.readid(ID_REG_CMEM, op2));
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_CMEM, op1, op2);
+			
 			if (op1type == TYPE_CREG && op2type == TYPE_CREG_POINTER){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, sram.read(reg_in.read(op2)));
+				reg_in.writeid(ID_REG_CMEM,op1, sram.read(reg_in.read(ID_REG_CMEM, op2)));
 			}
-			if (op1type == TYPE_CREG_POINTER && op2type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				sram.write(reg_in.read(op1), reg_in.read(op2));
-			}
-			if (op1type == TYPE_CREG_POINTER && op2type == TYPE_MEM_CONTAINER){
-				reg_in.setid(ID_REG_CMEM);
-				sram.write(reg_in.read(op1), sram.read(op2));
-			}
-			if (op1type == TYPE_MEM_CONTAINER && op2type == TYPE_CREG_POINTER){
-				reg_in.setid(ID_REG_CMEM);
-				sram.write(op1, sram.read(reg_in.read(op2)));
-			}
-			if (op1type == TYPE_CREG_POINTER && op2type == TYPE_CREG_POINTER){
-				reg_in.setid(ID_REG_CMEM);
-				sram.write(reg_in.read(op1), sram.read(reg_in.read(op2)));
-			}
-			if (op1type == TYPE_CREG_POINTER && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_CMEM);
-				sram.write(reg_in.read(op1), op2);
-			}
+			if (op1type == TYPE_CREG_POINTER && op2type == TYPE_CREG)
+				sram.write(reg_in.readid(ID_REG_CMEM, op1), reg_in.readid(ID_REG_CMEM,op2));
+			
+			if (op1type == TYPE_CREG_POINTER && op2type == TYPE_MEM_CONTAINER)
+				sram.write(reg_in.readid(ID_REG_CMEM,op1), sram.read(op2));
+			
+			if (op1type == TYPE_MEM_CONTAINER && op2type == TYPE_CREG_POINTER)
+				sram.write(op1, sram.read(reg_in.readid(ID_REG_CMEM,op2)));
+			
+			if (op1type == TYPE_CREG_POINTER && op2type == TYPE_CREG_POINTER)
+				sram.write(reg_in.readid(ID_REG_CMEM, op1), sram.read(reg_in.readid(ID_REG_CMEM,op2)));
+			
+			if (op1type == TYPE_CREG_POINTER && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS))
+				sram.write(reg_in.readid(ID_REG_CMEM,op1), op2);
+			
 			//
 
 			//
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, reg_in.read(op2));
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, op2);
-			}
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG_POINTER){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, sram.read(reg_in.read(op2)));
-			}
-			if (op1type == TYPE_QREG_POINTER && op2type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				sram.write(reg_in.read(op1), reg_in.read(op2));
-			}
-			if (op1type == TYPE_QREG_POINTER && op2type == TYPE_MEM_CONTAINER){
-				reg_in.setid(ID_REG_QMEM);
-				sram.write(reg_in.read(op1), sram.read(op2));
-			}
-			if (op1type == TYPE_MEM_CONTAINER && op2type == TYPE_QREG_POINTER){
-				reg_in.setid(ID_REG_QMEM);
-				sram.write(op1, sram.read(reg_in.read(op2)));
-			}
-			if (op1type == TYPE_QREG_POINTER && op2type == TYPE_QREG_POINTER){
-				reg_in.setid(ID_REG_QMEM);
-				sram.write(reg_in.read(op1), sram.read(reg_in.read(op2)));
-			}
-			if (op1type == TYPE_QREG_POINTER && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_QMEM);
-				sram.write(reg_in.read(op1), op2);
-			}
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_QMEM,op2));
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_QMEM,op1, op2);
+			
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG_POINTER)
+				reg_in.writeid(ID_REG_QMEM, op1, sram.read(reg_in.readid(ID_REG_QMEM,op2)));
+			
+			if (op1type == TYPE_QREG_POINTER && op2type == TYPE_QREG)
+				sram.write(reg_in.readid(ID_REG_QMEM, op1), reg_in.readid(ID_REG_QMEM,op2));
+			
+			if (op1type == TYPE_QREG_POINTER && op2type == TYPE_MEM_CONTAINER)
+				sram.write(reg_in.readid(ID_REG_QMEM,op1), sram.read(op2));
+			
+			if (op1type == TYPE_MEM_CONTAINER && op2type == TYPE_QREG_POINTER)
+				sram.write(op1, sram.read(reg_in.readid(ID_REG_QMEM,op2)));
+			
+			if (op1type == TYPE_QREG_POINTER && op2type == TYPE_QREG_POINTER)
+				sram.write(reg_in.readid(ID_REG_QMEM, op1), sram.read(reg_in.readid(ID_REG_QMEM,op2)));
+			
+			if (op1type == TYPE_QREG_POINTER && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS))
+				sram.write(reg_in.readid(ID_REG_QMEM,op1), op2);
+			
 			//
 
 			//
-			if (op1type == TYPE_CREG && op2type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				intq reg2 = reg_in.read(op2);
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, reg2);
-			}
-			if (op1type == TYPE_QREG && op2type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				intq reg2 = reg_in.read(op2);
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, reg2);
-			}
-			if (op1type == TYPE_CREG && op2type == TYPE_QREG_POINTER){
-				reg_in.setid(ID_REG_QMEM);
-				intq regp2 = sram.read(reg_in.read(op2));
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, regp2);
-			}
-			if (op1type == TYPE_QREG && op2type == TYPE_CREG_POINTER){
-				reg_in.setid(ID_REG_CMEM);
-				intq regp2 = sram.read(reg_in.read(op2));
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, regp2);
-			}
+			if (op1type == TYPE_CREG && op2type == TYPE_QREG)
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_QMEM, op2));
+			
+			if (op1type == TYPE_QREG && op2type == TYPE_CREG)
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_CMEM, op2));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_QREG_POINTER)
+				reg_in.writeid(ID_REG_CMEM, op1, sram.read(reg_in.readid(ID_REG_QMEM, op2)));
+			
+			if (op1type == TYPE_QREG && op2type == TYPE_CREG_POINTER)
+				reg_in.writeid(ID_REG_QMEM, op1, sram.read(reg_in.readid(ID_REG_CMEM, op2)));
+			
 			//
+
+			//
+			if (op1type == TYPE_STACKHEAD && op2type == TYPE_STACKBASE)
+				sram.set_stack_head(sram.get_stack_base());
+			
+			if (op1type == TYPE_STACKBASE && op2type == TYPE_STACKHEAD)
+				sram.set_stack_base(sram.get_stack_head());
+
+			if (op1type == TYPE_STACKHEAD && op2type == TYPE_CREG)
+				sram.set_stack_head(reg_in.readid(ID_REG_CMEM,op2));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_STACKHEAD)
+				reg_in.writeid(ID_REG_CMEM,op1, sram.get_stack_head());
+			
+			if (op1type == TYPE_STACKHEAD && op2type == TYPE_CREG_POINTER)
+				sram.set_stack_head(sram.read(reg_in.readid(ID_REG_CMEM,op2)));
+			
+			if (op1type == TYPE_CREG_POINTER && op2type == TYPE_STACKHEAD)
+				sram.write(reg_in.readid(ID_REG_CMEM,op1), sram.get_stack_head());
+			
+			if (op1type == TYPE_STACKHEAD && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS))
+				sram.set_stack_head(op2);
+
+			//
+
+			if (op1type == TYPE_STACKBASE && op2type == TYPE_CREG)
+				sram.set_stack_base(reg_in.readid(ID_REG_CMEM,op2));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_STACKBASE)
+				reg_in.writeid(ID_REG_CMEM,op1, sram.get_stack_base());
+			
+			if (op1type == TYPE_STACKBASE && op2type == TYPE_CREG_POINTER)
+				sram.set_stack_base(sram.read(reg_in.readid(ID_REG_CMEM,op2)));
+			
+			if (op1type == TYPE_CREG_POINTER && op2type == TYPE_STACKBASE)
+				sram.write(reg_in.readid(ID_REG_CMEM,op1), sram.get_stack_base());
+			
+			if (op1type == TYPE_STACKBASE && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS))
+				sram.set_stack_base(op2);
+
 			break;
 		case POP:
-			if (op1type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, sram.pop());
-			}
-			if (op1type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, sram.pop());
-			}
-			if (op1type == TYPE_MEM_CONTAINER){
+			if (op1type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM,op1, sram.pop());
+			
+			if (op1type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM,op1, sram.pop());
+			
+			if (op1type == TYPE_MEM_CONTAINER)
 				sram.write(op1, sram.pop());
-			}
+
+			if (op1type == TYPE_CREG_POINTER)
+				sram.write(reg_in.readid(ID_REG_CMEM,op1), sram.pop());
+			
+			if (op1type == TYPE_QREG_POINTER)
+				sram.write(reg_in.readid(ID_REG_QMEM,op1), sram.pop());
+			
+			if (op1type == TYPE_STACKHEAD)
+				sram.set_stack_head(sram.pop());
+			if (op1type == TYPE_STACKBASE)
+				sram.set_stack_base(sram.pop());
 			break;
 		case POPA:
-			reg_in.setid(ID_REG_CMEM);
-			for (int i = REGISTER_COUNT - 1; i >= 0; i--) reg_in.write(i, sram.pop());
+			for (int i = REGISTER_COUNT - 1; i >= 0; i--) reg_in.writeid(ID_REG_CMEM,i, sram.pop());
 			break;
 		case POPAQ:
-			reg_in.setid(ID_REG_QMEM);
-			for (int i = REGISTER_COUNT - 1; i >= 0; i--) reg_in.write(i, sram.pop());
+			for (int i = REGISTER_COUNT - 1; i >= 0; i--) reg_in.writeid(ID_REG_QMEM,i, sram.pop());
 			break;
 		case PUSH:
-			if (op1type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				sram.push(reg_in.read(op1));
-			}
-			if (op1type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				sram.push(reg_in.read(op1));
-			}
-			if ((op1type == TYPE_CONSTANT || op1type == TYPE_MEM_ADDRESS)){
+			if (op1type == TYPE_CREG)
+				sram.push(reg_in.readid(ID_REG_CMEM,op1));
+			
+			if (op1type == TYPE_QREG)
+				sram.push(reg_in.readid(ID_REG_QMEM,op1));
+			
+			if ((op1type == TYPE_CONSTANT || op1type == TYPE_MEM_ADDRESS))
 				sram.push(op1);
-			}
-			if (op1type == TYPE_MEM_CONTAINER){
+			
+			if (op1type == TYPE_MEM_CONTAINER)
 				sram.push(sram.read(op1));
-			}
-			if (op1type == TYPE_CREG_POINTER){
-				reg_in.setid(ID_REG_CMEM);
-				sram.push(sram.read(reg_in.read(op1)));
-			}
-			if (op1type == TYPE_QREG_POINTER){
-				reg_in.setid(ID_REG_QMEM);
-				sram.push(sram.read(reg_in.read(op1)));
-			}
+			
+			if (op1type == TYPE_CREG_POINTER)
+				sram.push(sram.read(reg_in.readid(ID_REG_CMEM,op1)));
+			
+			if (op1type == TYPE_QREG_POINTER)
+				sram.push(sram.read(reg_in.readid(ID_REG_QMEM,op1)));
+			
+			if (op1type == TYPE_STACKHEAD)
+				sram.push(sram.get_stack_head());
+
+			if (op1type == TYPE_STACKBASE)
+				sram.push(sram.get_stack_base());
 			break;
 		case PUSHA:
-			reg_in.setid(ID_REG_CMEM);
-			for (int i = 0; i < REGISTER_COUNT; i++) sram.push(reg_in.read(i));
+			for (int i = 0; i < REGISTER_COUNT; i++) sram.push(reg_in.readid(ID_REG_CMEM,i));
 			break;
 		case PUSHAQ:
-			reg_in.setid(ID_REG_QMEM);
-			for (int i = 0; i < REGISTER_COUNT; i++) sram.push(reg_in.read(i));
+			for (int i = 0; i < REGISTER_COUNT; i++) sram.push(reg_in.readid(ID_REG_QMEM,i));
 			break;
 		case CMP:
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				flags.compare(reg_in.read(op1), reg_in.read(op2));
-			}
-			if (op1type == TYPE_CREG && op2type == TYPE_MEM_CONTAINER){
-				reg_in.setid(ID_REG_CMEM);
-				flags.compare(reg_in.read(op1),sram.read(op2));
-			}
-			if (op1type == TYPE_MEM_CONTAINER && op2type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				flags.compare(sram.read(op1),reg_in.read(op2));
-			}
-			if (op1type == TYPE_MEM_CONTAINER && op2type == TYPE_MEM_CONTAINER){
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG)
+				flags.compare(reg_in.readid(ID_REG_CMEM,op1), reg_in.readid(ID_REG_CMEM, op2));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_MEM_CONTAINER)
+				flags.compare(reg_in.readid(ID_REG_CMEM,op1), sram.read(op2));
+			
+			if (op1type == TYPE_MEM_CONTAINER && op2type == TYPE_CREG)
+				flags.compare(sram.read(op1), reg_in.readid(ID_REG_CMEM,op2));
+			
+			if (op1type == TYPE_MEM_CONTAINER && op2type == TYPE_MEM_CONTAINER)
 				flags.compare(sram.read(op1), sram.read(op2));
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_CMEM);
-				flags.compare(reg_in.read(op1), op2);
-			}
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS))
+				flags.compare(reg_in.readid(ID_REG_CMEM,op1), op2);
+			
 			//
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				flags.compare(reg_in.read(op1), reg_in.read(op2));
-			}
-			if (op1type == TYPE_QREG && op2type == TYPE_MEM_CONTAINER){
-				reg_in.setid(ID_REG_QMEM);
-				flags.compare(reg_in.read(op1), sram.read(op2));
-			}
-			if (op1type == TYPE_MEM_CONTAINER && op2type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				flags.compare(sram.read(op1), reg_in.read(op2));
-			}
-			if (op1type == TYPE_MEM_CONTAINER && op2type == TYPE_MEM_CONTAINER){
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG)
+				flags.compare(reg_in.readid(ID_REG_QMEM, op1), reg_in.readid(ID_REG_QMEM,op2));
+			
+			if (op1type == TYPE_QREG && op2type == TYPE_MEM_CONTAINER)
+				flags.compare(reg_in.readid(ID_REG_QMEM,op1), sram.read(op2));
+			
+			if (op1type == TYPE_MEM_CONTAINER && op2type == TYPE_QREG)
+				flags.compare(sram.read(op1), reg_in.readid(ID_REG_QMEM,op2));
+			
+			if (op1type == TYPE_MEM_CONTAINER && op2type == TYPE_MEM_CONTAINER)
 				flags.compare(sram.read(op1), sram.read(op2));
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_QMEM);
-				flags.compare(reg_in.read(op1), op2);
-			}
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS))
+				flags.compare(reg_in.readid(ID_REG_QMEM,op1), op2);
+			
 			//
-			if (op1type == TYPE_CREG && op2type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				intq reg2 = reg_in.read(op2);
-				reg_in.setid(ID_REG_CMEM);
-				flags.compare(reg_in.read(op1), reg2);
-			}
-			if (op1type == TYPE_QREG && op2type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				intq reg2 = reg_in.read(op2);
-				reg_in.setid(ID_REG_QMEM);
-				flags.compare(reg_in.read(op1), reg2);
-			}
+			if (op1type == TYPE_CREG && op2type == TYPE_QREG)
+				flags.compare(reg_in.readid(ID_REG_CMEM, op1), reg_in.readid(ID_REG_QMEM, op2));
+			
+			if (op1type == TYPE_QREG && op2type == TYPE_CREG)
+				flags.compare(reg_in.readid(ID_REG_QMEM, op1), reg_in.readid(ID_REG_CMEM, op2));
+			
 			//
 			if ((op1type == TYPE_CONSTANT || op1type == TYPE_MEM_ADDRESS) && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS))
 				flags.compare(op1, op2);
@@ -343,13 +340,12 @@ void QEPU::execute(int func, intq op1, byte op1meta, intq op2, byte op2meta, int
 			break;
 		case BRC: // CONDITION IS INSIDE A REGISTER
 			if (op1type == TYPE_CREG || op1type == TYPE_QREG || op1type == TYPE_CONSTANT || op1type == TYPE_MEM_ADDRESS){
-				reg_in.setid(ID_REG_CMEM);
-				intq condition = reg_in.read(0); // GET CONDITION FROM CLASSICAL REGISTER 0 (AX)
+				intq condition = reg_in.readid(ID_REG_CMEM,0); // GET CONDITION FROM CLASSICAL REGISTER 0 (AX)
 				
 				int address_to_jmp = 0;
 				if ((op1type == TYPE_CONSTANT || op1type == TYPE_MEM_ADDRESS)) address_to_jmp = op1; // LABEL TO JUMP IS CONSTANT
-				else if (op1type == TYPE_CREG) address_to_jmp = reg_in.read(op1); // LABEL TO JUMP IS INSIDE CLASSICAL REGISTER
-				else if (op1type == TYPE_QREG){ reg_in.setid(ID_REG_QMEM); address_to_jmp = reg_in.read(op1); } // LABEL TO JUMP IS INSIDE QUANTUM REGISTER
+				else if (op1type == TYPE_CREG) address_to_jmp = reg_in.readid(ID_REG_CMEM,op1); // LABEL TO JUMP IS INSIDE CLASSICAL REGISTER
+				else if (op1type == TYPE_QREG) address_to_jmp = reg_in.readid(ID_REG_QMEM,op1);  // LABEL TO JUMP IS INSIDE QUANTUM REGISTER
 
 				switch (condition){
 					case CND_LWER:
@@ -410,910 +406,678 @@ void QEPU::execute(int func, intq op1, byte op1meta, intq op2, byte op2meta, int
 					if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
 					set_programcounter(op1);
 				}
-			if (op1type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
+
+			if (op1type == TYPE_CREG)
 				if (flags.flaglist[CND_LWER]){
 					if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
-					set_programcounter(reg_in.read(op1));
+					set_programcounter(reg_in.readid(ID_REG_CMEM,op1));
 				}
-			}
-			if (op1type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
+			
+			if (op1type == TYPE_QREG)
 				if (flags.flaglist[CND_LWER]){
 					if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
-					set_programcounter(reg_in.read(op1));
+					set_programcounter(reg_in.readid(ID_REG_QMEM,op1));
 				}
-			}
 			break;
 		case BLE:
 			if ((op1type == TYPE_CONSTANT || op1type == TYPE_MEM_ADDRESS))
-			if (flags.flaglist[CND_LWER_EQUAL]){
-				if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
-				set_programcounter(op1);
-			}
-			if (op1type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
 				if (flags.flaglist[CND_LWER_EQUAL]){
 					if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
-					set_programcounter(reg_in.read(op1));
+					set_programcounter(op1);
 				}
-			}
-			if (op1type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
+
+			if (op1type == TYPE_CREG)
 				if (flags.flaglist[CND_LWER_EQUAL]){
 					if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
-					set_programcounter(reg_in.read(op1));
+					set_programcounter(reg_in.readid(ID_REG_CMEM,op1));
 				}
-			}
+			
+			if (op1type == TYPE_QREG)
+				if (flags.flaglist[CND_LWER_EQUAL]){
+					if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
+					set_programcounter(reg_in.readid(ID_REG_QMEM,op1));
+				}
 			break;
 		case BEQ:
 			if ((op1type == TYPE_CONSTANT || op1type == TYPE_MEM_ADDRESS))
-			if (flags.flaglist[CND_EQUAL]){
-				if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
-				set_programcounter(op1);
-			}
-			if (op1type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
 				if (flags.flaglist[CND_EQUAL]){
 					if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
-					set_programcounter(reg_in.read(op1));
+					set_programcounter(op1);
 				}
-			}
-			if (op1type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
+
+			if (op1type == TYPE_CREG)
 				if (flags.flaglist[CND_EQUAL]){
 					if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
-					set_programcounter(reg_in.read(op1));
+					set_programcounter(reg_in.readid(ID_REG_CMEM,op1));
 				}
-			}
+			
+			if (op1type == TYPE_QREG)
+				if (flags.flaglist[CND_EQUAL]){
+					if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
+					set_programcounter(reg_in.readid(ID_REG_QMEM,op1));
+				}
 			break;
 		case BGE:
 			if ((op1type == TYPE_CONSTANT || op1type == TYPE_MEM_ADDRESS))
-			if (flags.flaglist[CND_GRTER_EQUAL]){
-				if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
-				set_programcounter(op1);
-			}
-			if (op1type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
+				if (flags.flaglist[CND_GRTER_EQUAL]){
+					if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
+					set_programcounter(op1);
+				}
+
+			if (op1type == TYPE_CREG)
 				if (flags.flaglist[CND_EQUAL]){
 					if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
-					set_programcounter(reg_in.read(op1));
+					set_programcounter(reg_in.readid(ID_REG_CMEM,op1));
 				}
-			}
-			if (op1type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
+			
+			if (op1type == TYPE_QREG)
 				if (flags.flaglist[CND_EQUAL]){
 					if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
-					set_programcounter(reg_in.read(op1));
+					set_programcounter(reg_in.readid(ID_REG_QMEM,op1));
 				}
-			}
 			break;
 		case BGR:
 			if ((op1type == TYPE_CONSTANT || op1type == TYPE_MEM_ADDRESS))
-			if (flags.flaglist[CND_GRTER]){
-				if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
-				set_programcounter(op1);
-			}
-			if (op1type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
 				if (flags.flaglist[CND_GRTER]){
 					if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
-					set_programcounter(reg_in.read(op1));
+					set_programcounter(op1);
 				}
-			}
-			if (op1type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
+
+			if (op1type == TYPE_CREG)
 				if (flags.flaglist[CND_GRTER]){
 					if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
-					set_programcounter(reg_in.read(op1));
+					set_programcounter(reg_in.readid(ID_REG_CMEM,op1));
 				}
-			}
+			
+			if (op1type == TYPE_QREG)
+				if (flags.flaglist[CND_GRTER]){
+					if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
+					set_programcounter(reg_in.readid(ID_REG_QMEM,op1));
+				}
 			break;
 		case BDI:
 			if ((op1type == TYPE_CONSTANT || op1type == TYPE_MEM_ADDRESS))
-			if (flags.flaglist[CND_DIFF]){
-				if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
-				set_programcounter(op1);
-			}
-			if (op1type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
 				if (flags.flaglist[CND_DIFF]){
 					if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
-					set_programcounter(reg_in.read(op1));
+					set_programcounter(op1);
 				}
-			}
-			if (op1type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
+
+			if (op1type == TYPE_CREG)
 				if (flags.flaglist[CND_DIFF]){
 					if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
-					set_programcounter(reg_in.read(op1));
+					set_programcounter(reg_in.readid(ID_REG_CMEM,op1));
 				}
-			}
+			
+			if (op1type == TYPE_QREG)
+				if (flags.flaglist[CND_DIFF]){
+					if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
+					set_programcounter(reg_in.readid(ID_REG_QMEM,op1));
+				}
 			break;
 		case BZE:
 			if ((op1type == TYPE_CONSTANT || op1type == TYPE_MEM_ADDRESS))
-			if (flags.flaglist[CND_ZERO]){
-				if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
-				set_programcounter(op1);
-			}
-			if (op1type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
 				if (flags.flaglist[CND_ZERO]){
 					if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
-					set_programcounter(reg_in.read(op1));
+					set_programcounter(op1);
 				}
-			}
-			if (op1type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
+
+			if (op1type == TYPE_CREG)
 				if (flags.flaglist[CND_ZERO]){
 					if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
-					set_programcounter(reg_in.read(op1));
+					set_programcounter(reg_in.readid(ID_REG_CMEM,op1));
 				}
-			}
+			
+			if (op1type == TYPE_QREG)
+				if (flags.flaglist[CND_ZERO]){
+					if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
+					set_programcounter(reg_in.readid(ID_REG_QMEM,op1));
+				}
 			break;
 		case BNZ:
 			if ((op1type == TYPE_CONSTANT || op1type == TYPE_MEM_ADDRESS))
-			if (flags.flaglist[CND_NOT_ZERO]){
-				if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
-				set_programcounter(op1);
-			}
-			if (op1type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
 				if (flags.flaglist[CND_NOT_ZERO]){
 					if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
-					set_programcounter(reg_in.read(op1));
+					set_programcounter(op1);
 				}
-			}
-			if (op1type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
+
+			if (op1type == TYPE_CREG)
 				if (flags.flaglist[CND_NOT_ZERO]){
 					if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
-					set_programcounter(reg_in.read(op1));
+					set_programcounter(reg_in.readid(ID_REG_CMEM,op1));
 				}
-			}
+			
+			if (op1type == TYPE_QREG)
+				if (flags.flaglist[CND_NOT_ZERO]){
+					if (flags.flaglist[ALLOW_BRANCH_STACK])	jumpstack.push(program_counter + 1);
+					set_programcounter(reg_in.readid(ID_REG_QMEM,op1));
+				}
+			
 			break;
 		case CALL:
 			if ((op1type == TYPE_CONSTANT || op1type == TYPE_MEM_ADDRESS)){
 				jumpstack.push(program_counter + 1);
 				set_programcounter(op1);
 			}
+			
 			if (op1type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
 				jumpstack.push(program_counter + 1);
-				set_programcounter(reg_in.read(op1));
+				set_programcounter(reg_in.readid(ID_REG_CMEM,op1));
 			}
+			
 			if (op1type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
 				jumpstack.push(program_counter + 1);
-				set_programcounter(reg_in.read(op1));
+				set_programcounter(reg_in.readid(ID_REG_QMEM,op1));
 			}
 			break;
 		case RET:
 			set_programcounter(jumpstack.pop());
 			break;
 		case JMP:
-			if ((op1type == TYPE_CONSTANT || op1type == TYPE_MEM_ADDRESS)){
+			if ((op1type == TYPE_CONSTANT || op1type == TYPE_MEM_ADDRESS))
 				set_programcounter(op1);
-			}
-			if (op1type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				set_programcounter(reg_in.read(op1));
-			}
-			if (op1type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				set_programcounter(reg_in.read(op1));
-			}
+			
+			if (op1type == TYPE_CREG)
+				set_programcounter(reg_in.readid(ID_REG_CMEM,op1));
+			
+			if (op1type == TYPE_QREG)
+				set_programcounter(reg_in.readid(ID_REG_QMEM,op1));
 			break;
 		case ADD:
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, reg_in.read(op2) + reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, reg_in.read(op2) + op3);
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, op2 + reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.write(op1, op2 + op3);
-			}
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM,op1, reg_in.readid(ID_REG_CMEM, op2) + reg_in.read(ID_REG_CMEM, op3));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_CMEM,op2) + op3);
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, op2 + reg_in.readid(ID_REG_CMEM,op3));
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_CMEM,op1, op2 + op3);
 			//
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_CMEM);
-				int op2d = reg_in.read(op2);
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, op2d + reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && op2type == TYPE_QREG && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_QMEM);
-				int op2d = reg_in.read(op2);
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, op2d + reg_in.read(op3));
-			}
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_CMEM, op2) + reg_in.readid(ID_REG_QMEM, op3));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_QREG && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_QMEM, op2) + reg_in.readid(ID_REG_CMEM, op3));
 			//
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, reg_in.read(op2) + reg_in.read(op3));
-			}
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, reg_in.read(op2) + op3);
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, op2 + reg_in.read(op3));
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.write(op1, op2 + op3);
-			}
+			
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_QMEM, op2) + reg_in.readid(ID_REG_QMEM,op3));
+			
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_QMEM,op2) + op3);
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, op2 + reg_in.readid(ID_REG_QMEM,op3));
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_QMEM,op1, op2 + op3);
 			break;
 		case SUB:
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, reg_in.read(op2) - reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, reg_in.read(op2) - op3);
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, op2 - reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_CMEM, op2) - reg_in.readid(ID_REG_CMEM,op3));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_CMEM,op2) - op3);
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, op2 - reg_in.readid(ID_REG_CMEM,op3));
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
 				reg_in.write(op1, op2 - op3);
-			}
 			//
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_CMEM);
-				int op2d = reg_in.read(op2);
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, op2d - reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && op2type == TYPE_QREG && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_QMEM);
-				int op2d = reg_in.read(op2);
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, op2d - reg_in.read(op3));
-			}
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_CMEM, op2) - reg_in.readid(ID_REG_QMEM, op3));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_QREG && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_QMEM, op2) - reg_in.readid(ID_REG_CMEM, op3));
 			//
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, reg_in.read(op2) - reg_in.read(op3));
-			}
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, reg_in.read(op2) - op3);
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, op2 - reg_in.read(op3));
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_QMEM, op2) - reg_in.readid(ID_REG_QMEM,op3));
+			
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_QMEM,op2) - op3);
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, op2 - reg_in.readid(ID_REG_QMEM,op3));
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
 				reg_in.write(op1, op2 - op3);
-			}
 			break;
 		case MUL:
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, reg_in.read(op2) * reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, reg_in.read(op2) * op3);
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, op2 * reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_CMEM, op2) * reg_in.readid(ID_REG_CMEM,op3));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_CMEM,op2) * op3);
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, op2 * reg_in.readid(ID_REG_CMEM,op3));
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
 				reg_in.write(op1, op2 * op3);
-			}
 			//
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_CMEM);
-				int op2d = reg_in.read(op2);
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, op2d * reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && op2type == TYPE_QREG && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_QMEM);
-				int op2d = reg_in.read(op2);
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, op2d * reg_in.read(op3));
-			}
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_CMEM, op2) * reg_in.readid(ID_REG_QMEM, op3));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_QREG && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_QMEM, op2) * reg_in.readid(ID_REG_CMEM, op3));
+			
 			//
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, reg_in.read(op2) * reg_in.read(op3));
-			}
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, reg_in.read(op2) * op3);
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, op2 * reg_in.read(op3));
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_QMEM, op2) * reg_in.readid(ID_REG_QMEM,op3));
+			
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_QMEM,op2) * op3);
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, op2 * reg_in.readid(ID_REG_QMEM,op3));
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
 				reg_in.write(op1, op2 * op3);
-			}
 			break;
 		case DIV:
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, reg_in.read(op2) / reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, reg_in.read(op2) / op3);
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, op2 / reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_CMEM, op2) / reg_in.readid(ID_REG_CMEM,op3));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_CMEM,op2) / op3);
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, op2 / reg_in.readid(ID_REG_CMEM,op3));
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
 				reg_in.write(op1, op2 / op3);
-			}
 			//
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_CMEM);
-				int op2d = reg_in.read(op2);
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, op2d / reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && op2type == TYPE_QREG && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_QMEM);
-				int op2d = reg_in.read(op2);
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, op2d / reg_in.read(op3));
-			}
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_CMEM, op2) / reg_in.readid(ID_REG_QMEM, op3));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_QREG && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_QMEM, op2) / reg_in.readid(ID_REG_CMEM, op3));
+			
 			//
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, reg_in.read(op2) / reg_in.read(op3));
-			}
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, reg_in.read(op2) / op3);
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, op2 / reg_in.read(op3));
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_QMEM, op2) / reg_in.readid(ID_REG_QMEM,op3));
+			
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_QMEM,op2) / op3);
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, op2 / reg_in.readid(ID_REG_QMEM,op3));
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
 				reg_in.write(op1, op2 / op3);
-			}
 			break;
 		case INC_:
-			if (op1type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, reg_in.read(op1) + 1);
-			}
-			if (op1type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, reg_in.read(op1) + 1);
-			}
+			if (op1type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_CMEM,op1) + 1);
+			
+			if (op1type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_QMEM,op1) + 1);
 			break;
 		case DEC_:
-			if (op1type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, reg_in.read(op1) - 1);
-			}
-			if (op1type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, reg_in.read(op1) - 1);
-			}
+			if (op1type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_CMEM,op1) - 1);
+			
+			if (op1type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_QMEM, op1) - 1);
 			break;
 		case ABS:
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, abs((long) reg_in.read(op2)));
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, abs((long)op2));
-			}
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, abs((long) reg_in.readid(ID_REG_CMEM,op2)));
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_CMEM,op1, abs((long) op2));
+			
 			//
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, abs((long) reg_in.read(op2)));
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, abs((long) op2));
-			}
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, abs((long) reg_in.readid(ID_REG_QMEM,op2)));
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_QMEM,op1, abs((long) op2));
 			break;
 		case MOD:
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, reg_in.read(op2) % reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, reg_in.read(op2) % op3);
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, op2 % reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.read(op2) % reg_in.readid(ID_REG_CMEM,op3));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_CMEM,op2) % op3);
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, op2 % reg_in.readid(ID_REG_CMEM,op3));
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
 				reg_in.write(op1, op2 % op3);
-			}
 			//
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_CMEM);
-				int op2d = reg_in.read(op2);
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, op2d % reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && op2type == TYPE_QREG && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_QMEM);
-				int op2d = reg_in.read(op2);
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, op2d % reg_in.read(op3));
-			}
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_CMEM, op2) % reg_in.readid(ID_REG_QMEM, op3));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_QREG && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_QMEM, op2) % reg_in.readid(ID_REG_CMEM, op3));
 			//
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, reg_in.read(op2) % reg_in.read(op3));
-			}
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, reg_in.read(op2) % op3);
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, op2 % reg_in.read(op3));
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_QMEM, op2) % reg_in.readid(ID_REG_QMEM,op3));
+			
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_QMEM,op2) % op3);
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, op2 % reg_in.readid(ID_REG_QMEM,op3));
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
 				reg_in.write(op1, op2 % op3);
-			}
 			break;
 		case AND:
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, reg_in.read(op2) & reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, reg_in.read(op2) & op3);
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, op2 & reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_CMEM, op2) & reg_in.readid(ID_REG_CMEM,op3));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_CMEM,op2) & op3);
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, op2 & reg_in.readid(ID_REG_CMEM,op3));
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
 				reg_in.write(op1, op2 & op3);
-			}
 			//
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_CMEM);
-				int op2d = reg_in.read(op2);
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, op2d & reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && op2type == TYPE_QREG && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_QMEM);
-				int op2d = reg_in.read(op2);
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, op2d & reg_in.read(op3));
-			}
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_CMEM, op2) & reg_in.readid(ID_REG_QMEM, op3));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_QREG && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_QMEM, op2) & reg_in.readid(ID_REG_CMEM, op3));
 			//
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, reg_in.read(op2) & reg_in.read(op3));
-			}
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, reg_in.read(op2) & op3);
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, op2 & reg_in.read(op3));
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_QMEM, op2) & reg_in.readid(ID_REG_QMEM,op3));
+			
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_QMEM,op2) & op3);
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, op2 & reg_in.readid(ID_REG_QMEM,op3));
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
 				reg_in.write(op1, op2 & op3);
-			}
 			break;
 		case OR:
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, reg_in.read(op2) | reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, reg_in.read(op2) | op3);
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, op2 | reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_CMEM, op2) | reg_in.readid(ID_REG_CMEM,op3));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_CMEM,op2) | op3);
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, op2 | reg_in.readid(ID_REG_CMEM,op3));
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
 				reg_in.write(op1, op2 | op3);
-			}
 			//
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_CMEM);
-				int op2d = reg_in.read(op2);
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, op2d | reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && op2type == TYPE_QREG && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_QMEM);
-				int op2d = reg_in.read(op2);
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, op2d | reg_in.read(op3));
-			}
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_CMEM, op2) | reg_in.readid(ID_REG_QMEM, op3));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_QREG && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_QMEM, op2) | reg_in.readid(ID_REG_CMEM, op3));
 			//
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, reg_in.read(op2) | reg_in.read(op3));
-			}
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, reg_in.read(op2) | op3);
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, op2 | reg_in.read(op3));
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_QMEM, op2) | reg_in.readid(ID_REG_QMEM,op3));
+			
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_QMEM,op2) | op3);
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, op2 | reg_in.readid(ID_REG_QMEM,op3));
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
 				reg_in.write(op1, op2 | op3);
-			}
 			break;
 		case NOR:
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, ~(reg_in.read(op2) | reg_in.read(op3)));
-			}
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, ~(reg_in.read(op2) | op3));
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, ~(op2 | reg_in.read(op3)));
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, ~(reg_in.readid(ID_REG_CMEM, op2) | reg_in.readid(ID_REG_CMEM,op3)));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_CMEM, op1, ~(reg_in.readid(ID_REG_CMEM,op2) | op3));
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, ~(op2 | reg_in.readid(ID_REG_CMEM,op3)));
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
 				reg_in.write(op1, ~(op2 | op3));
-			}
 			//
 			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_CMEM);
-				int op2d = reg_in.read(op2);
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, ~(op2d | reg_in.read(op3)));
+				reg_in.writeid(ID_REG_QMEM, op1, ~(reg_in.readid(ID_REG_CMEM, op2) | reg_in.readid(ID_REG_QMEM, op3)));
 			}
-			if (op1type == TYPE_CREG && op2type == TYPE_QREG && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_QMEM);
-				int op2d = reg_in.read(op2);
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, ~(op2d | reg_in.read(op3)));
-			}
+			if (op1type == TYPE_CREG && op2type == TYPE_QREG && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, ~(reg_in.readid(ID_REG_QMEM, op2) | reg_in.readid(ID_REG_CMEM, op3)));
+			
 			//
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, ~(reg_in.read(op2) | reg_in.read(op3)));
-			}
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, ~(reg_in.read(op2) | op3));
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, ~(op2 | reg_in.read(op3)));
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, ~(reg_in.readid(ID_REG_QMEM, op2) | reg_in.readid(ID_REG_QMEM,op3)));
+			
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_QMEM, op1, ~(reg_in.readid(ID_REG_QMEM,op2) | op3));
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, ~(op2 | reg_in.readid(ID_REG_QMEM,op3)));
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
 				reg_in.write(op1, ~(op2 | op3));
-			}
 			break;
 		case XOR:
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, reg_in.read(op2) ^ reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, reg_in.read(op2) ^ op3);
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, op2 ^ reg_in.read(op3));
-			}
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_CMEM, op2) ^ reg_in.readid(ID_REG_CMEM,op3));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_CMEM,op2) ^ op3);
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, op2 ^ reg_in.readid(ID_REG_CMEM,op3));
+			
 			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
 				reg_in.write(op1, op2 ^ op3);
 			}
 			//
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_CMEM);
-				int op2d = reg_in.read(op2);
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, op2d ^ reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && op2type == TYPE_QREG && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_QMEM);
-				int op2d = reg_in.read(op2);
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, op2d ^ reg_in.read(op3));
-			}
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_CMEM, op2) ^ reg_in.readid(ID_REG_QMEM, op3));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_QREG && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_QMEM, op2) ^ reg_in.readid(ID_REG_CMEM, op3));
 			//
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, reg_in.read(op2) ^ reg_in.read(op3));
-			}
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, reg_in.read(op2) ^ op3);
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, op2 ^ reg_in.read(op3));
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_QMEM, op2) ^ reg_in.readid(ID_REG_QMEM,op3));
+			
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_QMEM,op2) ^ op3);
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, op2 ^ reg_in.readid(ID_REG_QMEM,op3));
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
 				reg_in.write(op1, op2 ^ op3);
-			}
 			break;
 		case NAND:
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, ~(reg_in.read(op2) & reg_in.read(op3)));
-			}
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, ~(reg_in.read(op2) & op3));
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, ~(op2 & reg_in.read(op3)));
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, ~(reg_in.readid(ID_REG_CMEM, op2) & reg_in.readid(ID_REG_CMEM,op3)));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_CMEM, op1, ~(reg_in.readid(ID_REG_CMEM,op2) & op3));
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, ~(op2 & reg_in.readid(ID_REG_CMEM,op3)));
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
 				reg_in.write(op1, ~(op2 & op3));
-			}
 			//
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_CMEM);
-				int op2d = reg_in.read(op2);
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, ~(op2d & reg_in.read(op3)));
-			}
-			if (op1type == TYPE_CREG && op2type == TYPE_QREG && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_QMEM);
-				int op2d = reg_in.read(op2);
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, ~(op2d & reg_in.read(op3)));
-			}
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, ~(reg_in.readid(ID_REG_CMEM, op2) & reg_in.readid(ID_REG_QMEM, op3)));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_QREG && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, ~(reg_in.readid(ID_REG_QMEM, op2) & reg_in.readid(ID_REG_CMEM, op3)));
 			//
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, ~(reg_in.read(op2) & reg_in.read(op3)));
-			}
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, ~(reg_in.read(op2) & op3));
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, ~(op2 & reg_in.read(op3)));
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, ~(reg_in.readid(ID_REG_QMEM, op2) & reg_in.readid(ID_REG_QMEM,op3)));
+			
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_QMEM, op1, ~(reg_in.readid(ID_REG_QMEM,op2) & op3));
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, ~(op2 & reg_in.readid(ID_REG_QMEM,op3)));
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
 				reg_in.write(op1, ~(op2 & op3));
-			}
 			break;
 		case NOT:
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, ~((long) reg_in.read(op2)));
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, ~((long) op2));
-			}
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, ~((long) reg_in.readid(ID_REG_CMEM,op2)));
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_CMEM,op1, ~((long) op2));
 			//
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, ~((long) reg_in.read(op2)));
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, ~((long) op2));
-			}
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, ~((long) reg_in.readid(ID_REG_QMEM,op2)));
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_QMEM,op1, ~((long) op2));
 			break;
 		case SHL:
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, reg_in.read(op2) << reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, reg_in.read(op2) << op3);
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, op2 << reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_CMEM, op2) << reg_in.readid(ID_REG_CMEM,op3));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_CMEM,op2) << op3);
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, op2 << reg_in.readid(ID_REG_CMEM,op3));
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
 				reg_in.write(op1, op2 << op3);
-			}
 			//
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_CMEM);
-				int op2d = reg_in.read(op2);
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, op2d << reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && op2type == TYPE_QREG && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_QMEM);
-				int op2d = reg_in.read(op2);
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, op2d << reg_in.read(op3));
-			}
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_CMEM, op2) << reg_in.readid(ID_REG_QMEM, op3));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_QREG && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_QMEM, op2) << reg_in.readid(ID_REG_CMEM, op3));
+			
 			//
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, reg_in.read(op2) << reg_in.read(op3));
-			}
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, reg_in.read(op2) << op3);
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, op2 << reg_in.read(op3));
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_QMEM, op2) << reg_in.readid(ID_REG_QMEM,op3));
+			
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_QMEM,op2) << op3);
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, op2 << reg_in.readid(ID_REG_QMEM,op3));
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
 				reg_in.write(op1, op2 << op3);
-			}
 			break;
 		case SHR:
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, reg_in.read(op2) >> reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, reg_in.read(op2) >> op3);
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, op2 >> reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_CMEM, op2) >> reg_in.readid(ID_REG_CMEM,op3));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_CMEM,op2) >> op3);
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, op2 >> reg_in.readid(ID_REG_CMEM,op3));
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
 				reg_in.write(op1, op2 >> op3);
-			}
 			//
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_CMEM);
-				int op2d = reg_in.read(op2);
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, op2d >> reg_in.read(op3));
-			}
-			if (op1type == TYPE_CREG && op2type == TYPE_QREG && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_QMEM);
-				int op2d = reg_in.read(op2);
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, op2d >> reg_in.read(op3));
-			}
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_CMEM, op2) >> reg_in.readid(ID_REG_QMEM, op3));
+			
+			if (op1type == TYPE_CREG && op2type == TYPE_QREG && op3type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, reg_in.readid(ID_REG_QMEM, op2) >> reg_in.readid(ID_REG_CMEM, op3));
 			//
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, reg_in.read(op2) >> reg_in.read(op3));
-			}
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, reg_in.read(op2) >> op3);
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, op2 >> reg_in.read(op3));
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_QMEM, op2) >> reg_in.readid(ID_REG_QMEM,op3));
+			
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_QMEM, op1, reg_in.readid(ID_REG_QMEM,op2) >> op3);
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, op2 >> reg_in.readid(ID_REG_QMEM,op3));
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
 				reg_in.write(op1, op2 >> op3);
-			}
 			break;
 		case NEG:
-			if (op1type == TYPE_CREG && op2type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, ~((long) reg_in.read(op2))+1);
-			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, ~((long) op2)+1);
-			}
+			if (op1type == TYPE_CREG && op2type == TYPE_CREG)
+				reg_in.writeid(ID_REG_CMEM, op1, ~((long) reg_in.readid(ID_REG_CMEM,op2)) + 1);
+			
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_CMEM,op1, ~((long) op2) + 1);
+			
 			//
-			if (op1type == TYPE_QREG && op2type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, ~((long) reg_in.read(op2))+1);
-			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, ~((long) op2)+1);
-			}
+			if (op1type == TYPE_QREG && op2type == TYPE_QREG)
+				reg_in.writeid(ID_REG_QMEM, op1, ~((long) reg_in.readid(ID_REG_QMEM,op2)) + 1);
+			
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_QMEM,op1, ~((long) op2) + 1);
 			break;
 		case ROL:
 			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				intq op2t = reg_in.read(op2); intq op3t = reg_in.read(op3);
-				reg_in.write(op1, ((op2t << op3t) | (op2t >> (NUMERIC_SYSTEM - op3t))));
+				intq op2t = reg_in.readid(ID_REG_CMEM, op2); intq op3t = reg_in.readid(ID_REG_CMEM,op3);
+				reg_in.writeid(ID_REG_CMEM,op1, ((op2t << op3t) | (op2t >> (NUMERIC_SYSTEM - op3t))));
 			}
 			if (op1type == TYPE_CREG && op2type == TYPE_CREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_CMEM);
-				intq op2t = reg_in.read(op2);
-				reg_in.write(op1, ((op2t << op3) | (op2t >> (NUMERIC_SYSTEM - op3))));
+				intq op2t = reg_in.readid(ID_REG_CMEM,op2);
+				reg_in.writeid(ID_REG_CMEM,op1, ((op2t << op3) | (op2t >> (NUMERIC_SYSTEM - op3))));
 			}
 			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				intq op3t = reg_in.read(op3); 
-				reg_in.write(op1, ((op2 << op3t) | (op2 >> (NUMERIC_SYSTEM - op3t))));
+				intq op3t = reg_in.readid(ID_REG_CMEM,op3);
+				reg_in.writeid(ID_REG_CMEM,op1, ((op2 << op3t) | (op2 >> (NUMERIC_SYSTEM - op3t))));
 			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, ((op2 << op3) | (op2 >> (NUMERIC_SYSTEM - op3))));
-			}
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_CMEM,op1, ((op2 << op3) | (op2 >> (NUMERIC_SYSTEM - op3))));
+			
 			//
 			if (op1type == TYPE_QREG && op2type == TYPE_QREG && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				intq op2t = reg_in.read(op2); intq op3t = reg_in.read(op3);
-				reg_in.write(op1, ((op2t << op3t) | (op2t >> (NUMERIC_SYSTEM - op3t))));
+				intq op2t = reg_in.readid(ID_REG_QMEM, op2); intq op3t = reg_in.readid(ID_REG_QMEM,op3);
+				reg_in.writeid(ID_REG_QMEM,op1, ((op2t << op3t) | (op2t >> (NUMERIC_SYSTEM - op3t))));
 			}
 			if (op1type == TYPE_QREG && op2type == TYPE_QREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_QMEM);
-				intq op2t = reg_in.read(op2);
-				reg_in.write(op1, ((op2t << op3) | (op2t >> (NUMERIC_SYSTEM - op3))));
+				intq op2t = reg_in.readid(ID_REG_QMEM,op2);
+				reg_in.writeid(ID_REG_QMEM,op1, ((op2t << op3) | (op2t >> (NUMERIC_SYSTEM - op3))));
 			}
 			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				intq op3t = reg_in.read(op3);
-				reg_in.write(op1, ((op2 << op3t) | (op2 >> (NUMERIC_SYSTEM - op3t))));
+				intq op3t = reg_in.readid(ID_REG_QMEM,op3);
+				reg_in.writeid(ID_REG_QMEM,op1, ((op2 << op3t) | (op2 >> (NUMERIC_SYSTEM - op3t))));
 			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, ((op2 << op3) | (op2 >> (NUMERIC_SYSTEM - op3))));
-			}
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_QMEM,op1, ((op2 << op3) | (op2 >> (NUMERIC_SYSTEM - op3))));
 			break;
 		case ROR:
 			if (op1type == TYPE_CREG && op2type == TYPE_CREG && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				intq op2t = reg_in.read(op2); intq op3t = reg_in.read(op3);
-				reg_in.write(op1, ((op2t >> op3t) | (op2t << (NUMERIC_SYSTEM - op3t))));
+				intq op2t = reg_in.readid(ID_REG_CMEM, op2); intq op3t = reg_in.readid(ID_REG_CMEM,op3);
+				reg_in.writeid(ID_REG_CMEM,op1, ((op2t >> op3t) | (op2t << (NUMERIC_SYSTEM - op3t))));
 			}
 			if (op1type == TYPE_CREG && op2type == TYPE_CREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_CMEM);
-				intq op2t = reg_in.read(op2);
-				reg_in.write(op1, ((op2t >> op3) | (op2t << (NUMERIC_SYSTEM - op3))));
+				intq op2t = reg_in.readid(ID_REG_CMEM,op2);
+				reg_in.writeid(ID_REG_CMEM,op1, ((op2t >> op3) | (op2t << (NUMERIC_SYSTEM - op3))));
 			}
 			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_CREG){
-				reg_in.setid(ID_REG_CMEM);
-				intq op3t = reg_in.read(op3);
-				reg_in.write(op1, ((op2 >> op3t) | (op2 << (NUMERIC_SYSTEM - op3t))));
+				intq op3t = reg_in.readid(ID_REG_CMEM,op3);
+				reg_in.writeid(ID_REG_CMEM,op1, ((op2 >> op3t) | (op2 << (NUMERIC_SYSTEM - op3t))));
 			}
-			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_CMEM);
-				reg_in.write(op1, ((op2 >> op3) | (op2 << (NUMERIC_SYSTEM - op3))));
-			}
+			if (op1type == TYPE_CREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_CMEM,op1, ((op2 >> op3) | (op2 << (NUMERIC_SYSTEM - op3))));
 			//
 			if (op1type == TYPE_QREG && op2type == TYPE_QREG && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				intq op2t = reg_in.read(op2); intq op3t = reg_in.read(op3);
-				reg_in.write(op1, ((op2t >> op3t) | (op2t << (NUMERIC_SYSTEM - op3t))));
+				intq op2t = reg_in.readid(ID_REG_QMEM, op2); intq op3t = reg_in.readid(ID_REG_QMEM,op3);
+				reg_in.writeid(ID_REG_QMEM,op1, ((op2t >> op3t) | (op2t << (NUMERIC_SYSTEM - op3t))));
 			}
 			if (op1type == TYPE_QREG && op2type == TYPE_QREG && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_QMEM);
-				intq op2t = reg_in.read(op2);
-				reg_in.write(op1, ((op2t >> op3) | (op2t << (NUMERIC_SYSTEM - op3))));
+				intq op2t = reg_in.readid(ID_REG_QMEM,op2);
+				reg_in.writeid(ID_REG_QMEM,op1, ((op2t >> op3) | (op2t << (NUMERIC_SYSTEM - op3))));
 			}
 			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && op3type == TYPE_QREG){
-				reg_in.setid(ID_REG_QMEM);
-				intq op3t = reg_in.read(op3);
-				reg_in.write(op1, ((op2 >> op3t) | (op2 << (NUMERIC_SYSTEM - op3t))));
+				intq op3t = reg_in.readid(ID_REG_QMEM,op3);
+				reg_in.writeid(ID_REG_QMEM,op1, ((op2 >> op3t) | (op2 << (NUMERIC_SYSTEM - op3t))));
 			}
-			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS)){
-				reg_in.setid(ID_REG_QMEM);
-				reg_in.write(op1, ((op2 >> op3) | (op2 << (NUMERIC_SYSTEM - op3))));
-			}
+			if (op1type == TYPE_QREG && (op2type == TYPE_CONSTANT || op2type == TYPE_MEM_ADDRESS) && (op3type == TYPE_CONSTANT || op3type == TYPE_MEM_ADDRESS))
+				reg_in.writeid(ID_REG_QMEM,op1, ((op2 >> op3) | (op2 << (NUMERIC_SYSTEM - op3))));
 			break;
 		case INT:
 			if ((op1type == TYPE_CONSTANT || op1type == TYPE_MEM_ADDRESS))

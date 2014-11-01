@@ -6,7 +6,6 @@ SRAM::SRAM(){
 	init();
 }
 void SRAM::init(){
-	//stack_head_offset = MEMORY_HEAD_PERMISSION_OFFSET + HEAD_PROGRAMMER_OFFSET;
 	stack_tail_offset = ADDRESS_MAX - MEMORY_TAIL_PERMISSION_OFFSET - TAIL_PROGRAMMER_OFFSET;
 	stack_head_offset = stack_tail_offset;
 	memory_restrictedaccess_allowed = false;
@@ -32,6 +31,14 @@ intq SRAM::read(int address){
 void SRAM::write(int address, intq data){
 	memory_management();
 	sram_memory[address] = data;
+}
+
+intq SRAM::get_stack_base(){
+	return stack_tail_offset;
+}
+
+intq SRAM::get_stack_head(){
+	return stack_head_offset;
 }
 
 intq SRAM::pop(){

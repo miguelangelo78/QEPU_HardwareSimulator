@@ -7,7 +7,6 @@
 #define QB2_MATRIX_SIZE 4
 #define QB3_MATRIX_SIZE 8
 #define VECTOR_QUBIT_SIZE 2
-#define M_PI 3.14159265358979323846
 #include <math.h>
 #include <stdio.h>
 #include <stdarg.h>
